@@ -68,9 +68,19 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+<script type="text/javascript">
+    function check(form){
+        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value)==false){
+            alert("请输入正确的电话号码～");
+            form.C_PHONE.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp" method="post">
+        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp" method="post" onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
             <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
@@ -87,12 +97,11 @@
 </div>
 </body>
 <script>
-    function checkPhone(){
-        var phone = document.getElementById('phone').value;
+    function checkPhone(phone){
         if(!(/^1[34578]\d{9}$/.test(phone))){
-            alert("手机号码有误，请重填");
             return false;
         }
+        return true;
     }
 </script>
 </html>

@@ -73,6 +73,8 @@
 <div class="container">
     <div class="jumbotron">
         <%
+            int curPage=1;
+            int count=0;
             //连接数据库，用jdbc驱动加载mysql
             try {
                 Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -88,7 +90,11 @@
                 //out.print("Successfully connect to the databass!<br>");
                 Statement stmt = conn.createStatement();
                 //执行SQL查询语句，返回结果集
-                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT 0, 10");
+                ResultSet rsc=stmt.executeQuery("SELECT COUNT(*) totalCount FROM customer");
+                if (rsc.next()){
+                    count = rsc.getInt("totalCount");
+                }
+                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT "+(curPage-1)*10+", 10");
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">
@@ -220,7 +226,7 @@
                         <button type="button" class="btn btn-primary"
                                 onclick="window.location.href='/views/jsp/customer_add.jsp'">添加
                         </button>
-                    </dij>
+                    </div>
                 </div>
             </th>
         </table>
@@ -234,6 +240,7 @@
                 sqlexception.printStackTrace();
             }
         %>
+
     </div>
 </div>
 <%-- Bootstrap --%>

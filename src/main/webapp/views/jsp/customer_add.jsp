@@ -75,6 +75,12 @@
             form.C_PHONE.focus();
             return false;
         }
+        if (form.C_ACCTBAL.value !='' && isNaN(form.C_ACCTBAL.value)){
+            alert("金额必须为数字");
+            form.C_ACCTBAL.focus();
+            return false;
+        }
+
         return true;
     }
 </script>

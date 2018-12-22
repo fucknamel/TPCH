@@ -69,6 +69,22 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+<script type="text/javascript">
+    function check(form){
+        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value)==false){
+            alert("请输入正确的电话号码～");
+            form.C_PHONE.focus();
+            return false;
+        }
+        if (form.C_ACCTBAL.value !='' && isNaN(form.C_ACCTBAL.value)){
+            alert("金额必须为数字");
+            form.C_ACCTBAL.focus();
+            return false;
+        }
+
+        return true;
+    }
+</script>
 <%
     String id = request.getParameter("id");
     //连接数据库，用jdbc驱动加载mysql
@@ -92,7 +108,7 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-inline text-center" action="customer_change_ok.jsp">
+        <form class="form-inline text-center" action="customer_change_ok.jsp" onsubmit="return check(this)">
             <div class="form-group">
                 <div class="input-group">
                     <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>" required>
@@ -139,4 +155,12 @@
     }
 %>
 </body>
+<script>
+    function checkPhone(phone){
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>

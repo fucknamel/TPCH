@@ -1,5 +1,9 @@
 <%@ page import="com.tpch.util.PropertiesUtil" %>
-<%@ page import="java.sql.*" %><%--
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-22
@@ -31,7 +35,8 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
                        aria-expanded="false">消费者</a>
                 </li>
                 <li class="dropdown">
@@ -70,13 +75,13 @@
     </div>
 </nav>
 <script type="text/javascript">
-    function check(form){
-        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value)==false){
+    function check(form) {
+        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
             alert("请输入正确的电话号码～");
             form.C_PHONE.focus();
             return false;
         }
-        if (form.C_ACCTBAL.value !='' && isNaN(form.C_ACCTBAL.value)){
+        if (form.C_ACCTBAL.value != '' && isNaN(form.C_ACCTBAL.value)) {
             alert("金额必须为数字");
             form.C_ACCTBAL.focus();
             return false;
@@ -99,11 +104,21 @@
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
         String updateSql = "SELECT * FROM customer WHERE C_CUSTKEY=" + id;
+        String querySql = "SELECT * FROM nation";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
+        ResultSet rsc = stmt.executeQuery(querySql);
+        List<String> list = new ArrayList<>();
+        Map map = new HashMap();
+        while (rsc.next()) {
+            map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
+            list.add(rsc.getString("N_NAME"));
+        }
+        rsc.close();
         //执行SQL查询语句，返回结果集
         ResultSet rs = stmt.executeQuery(updateSql);
+//        ResultSet rsc = stmt.executeQuery(querySql);
         while (rs.next()) {
 %>
 <div class="container">
@@ -111,7 +126,8 @@
         <form class="form-inline text-center" action="customer_change_ok.jsp" onsubmit="return check(this)">
             <div class="form-group">
                 <div class="input-group">
-                    <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>" required>
+                    <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>"
+                           required>
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">姓名</div>
@@ -123,7 +139,20 @@
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">国家</div>
-                    <input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">
+                    <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+                    <select class="form-control" name="C_NATIONKEY">
+                        <option><%=map.get(rs.getInt("C_NATIONKEY"))%></option>
+                        <%
+                            int len = list.size();
+                            for (int i = 0; i < len; i++) {
+                                if (!list.get(i).equals(map.get(rs.getInt("C_NATIONKEY")))) {
+                        %>
+                        <option><%=list.get(i)%></option>
+                        <%
+                                }
+                            }
+                        %>
+                    </select>
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">电话</div>
@@ -135,7 +164,8 @@
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">市场</div>
-                    <input type="text" class="form-control" name="C_MKTSEGMENT" value="<%=rs.getString("C_MKTSEGMENT")%>">
+                    <input type="text" class="form-control" name="C_MKTSEGMENT"
+                           value="<%=rs.getString("C_MKTSEGMENT")%>">
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">备注</div>
@@ -156,8 +186,8 @@
 %>
 </body>
 <script>
-    function checkPhone(phone){
-        if(!(/^1[34578]\d{9}$/.test(phone))){
+    function checkPhone(phone) {
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
             return false;
         }
         return true;

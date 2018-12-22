@@ -9,6 +9,8 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="com.tpch.util.PropertiesUtil" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
 <html>
 <head>
     <title>Title</title>
@@ -73,50 +75,6 @@
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("UPDATE customer SET ");
-    insertSql.append("C_NAME=");
-    if(StringUtils.isBlank(request.getParameter("C_NAME"))){
-        insertSql.append("''" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_NAME") + "', ");
-    }
-    insertSql.append("C_ADDRESS=");
-    if(StringUtils.isBlank(request.getParameter("C_ADDRESS"))){
-        insertSql.append("''" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_ADDRESS") + "', ");
-    }
-    insertSql.append("C_NATIONKEY=");
-    if(StringUtils.isBlank(request.getParameter("C_NATIONKEY"))){
-        insertSql.append("null" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_NATIONKEY") + "', ");
-    }
-    insertSql.append("C_PHONE=");
-    if(StringUtils.isBlank(request.getParameter("C_PHONE"))){
-        insertSql.append("''" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_PHONE") + "', ");
-    }
-    insertSql.append("C_ACCTBAL=");
-    if(StringUtils.isBlank(request.getParameter("C_ACCTBAL"))){
-        insertSql.append("0" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_ACCTBAL") + "', ");
-    }
-    insertSql.append("C_MKTSEGMENT=");
-    if(StringUtils.isBlank(request.getParameter("C_MKTSEGMENT"))){
-        insertSql.append("''" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_MKTSEGMENT") + "', ");
-    }
-    insertSql.append("C_COMMENT=");
-    if(StringUtils.isBlank(request.getParameter("C_COMMENT"))){
-        insertSql.append("''");
-    }else {
-        insertSql.append("'" + request.getParameter("C_COMMENT") + "'");
-    }
-    insertSql.append("WHERE C_CUSTKEY='"+ request.getParameter("C_CUSTKEY") + "'");
 
 
     //连接数据库，用jdbc驱动加载mysql
@@ -132,6 +90,57 @@
         String PASSWORD = PropertiesUtil.getProperty("db.password");
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM nation");
+        Map map = new HashMap<>();
+        while (rs.next()) {
+            map.put(rs.getString("N_NAME"), rs.getInt("N_NATIONKEY"));
+        }
+        rs.close();
+
+        StringBuilder insertSql = new StringBuilder("UPDATE customer SET ");
+        insertSql.append("C_NAME=");
+        if(StringUtils.isBlank(request.getParameter("C_NAME"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("C_NAME") + "', ");
+        }
+        insertSql.append("C_ADDRESS=");
+        if(StringUtils.isBlank(request.getParameter("C_ADDRESS"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("C_ADDRESS") + "', ");
+        }
+        insertSql.append("C_NATIONKEY=");
+        if(StringUtils.isBlank(request.getParameter("C_NATIONKEY"))){
+            insertSql.append("null" + ",");
+        }else {
+            insertSql.append("'" + map.get(request.getParameter("C_NATIONKEY")) + "', ");
+        }
+        insertSql.append("C_PHONE=");
+        if(StringUtils.isBlank(request.getParameter("C_PHONE"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("C_PHONE") + "', ");
+        }
+        insertSql.append("C_ACCTBAL=");
+        if(StringUtils.isBlank(request.getParameter("C_ACCTBAL"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("C_ACCTBAL") + "', ");
+        }
+        insertSql.append("C_MKTSEGMENT=");
+        if(StringUtils.isBlank(request.getParameter("C_MKTSEGMENT"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("C_MKTSEGMENT") + "', ");
+        }
+        insertSql.append("C_COMMENT=");
+        if(StringUtils.isBlank(request.getParameter("C_COMMENT"))){
+            insertSql.append("''");
+        }else {
+            insertSql.append("'" + request.getParameter("C_COMMENT") + "'");
+        }
+        insertSql.append("WHERE C_CUSTKEY='"+ request.getParameter("C_CUSTKEY") + "'");
         //执行SQL查询语句，返回结果集
         stmt.executeUpdate(insertSql.toString());
         //关闭数据库

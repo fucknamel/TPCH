@@ -257,7 +257,7 @@
                 rs.close();
                 stmt.close();
                 conn.close();
-                //out.print("Successfully close the databass!");
+                //out.print("Successfully close the database!");
             } catch (SQLException sqlexception) {
                 sqlexception.printStackTrace();
             }

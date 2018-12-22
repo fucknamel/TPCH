@@ -3,7 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%--
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-22
@@ -123,7 +124,7 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-inline text-center" action="customer_change_ok.jsp" onsubmit="return check(this)">
+        <form class="form-inline text-center" action="/views/jsp/customer_change_ok.jsp" onsubmit="return check(this)">
             <div class="form-group">
                 <div class="input-group">
                     <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>"

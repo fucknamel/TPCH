@@ -1,3 +1,9 @@
+<%@ page import="com.tpch.util.PropertiesUtil" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: lkh
@@ -84,6 +90,30 @@
         return true;
     }
 </script>
+<%
+    //连接数据库，用jdbc驱动加载mysql
+    try {
+        Class.forName(PropertiesUtil.getProperty("db.name"));
+    } catch (ClassNotFoundException classnotfoundexception) {
+        classnotfoundexception.printStackTrace();
+    }
+    try {
+        //连接数据库
+        String URL = PropertiesUtil.getProperty("db.url");
+        String USER = PropertiesUtil.getProperty("db.username");
+        String PASSWORD = PropertiesUtil.getProperty("db.password");
+        String querySql = "SELECT * FROM nation";
+        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        //out.print("Successfully connect to the databass!<br>");
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(querySql);
+        List<String> list = new ArrayList<>();
+        Map map = new HashMap();
+        while (rs.next()) {
+            map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
+            list.add(rs.getString("N_NAME"));
+        }
+%>
 <div class="container">
     <div class="jumbotron">
         <form class="form-signin" action="/views/jsp/customer_add_ok.jsp" method="post" onsubmit="return check(this)">
@@ -92,6 +122,20 @@
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
             <input type="text" name="C_ADDRESS" class="form-control" placeholder="地址" autofocus>
             <input type="text" name="C_NATIONKEY" class="form-control" placeholder="国家" autofocus>
+            <div class="input-group">
+                <div class="input-group-addon">国家</div>
+                <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+                <select class="form-control" name="C_NATIONKEY">
+                    <%
+                        int len = list.size();
+                        for (int i = 0; i < len; i++) {
+                    %>
+                    <option><%=list.get(i)%></option>
+                    <%
+                        }
+                    %>
+                </select>
+            </div>
             <input type="text" name="C_PHONE" class="form-control" placeholder="电话" autofocus>
             <input type="text" name="C_ACCTBAL" class="form-control" placeholder="可用余额" autofocus>
             <input type="text" name="C_MKTSEGMENT" class="form-control" placeholder="市场" autofocus>
@@ -101,6 +145,14 @@
         </form>
     </div>
 </div>
+<%
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (SQLException sqlexception) {
+        sqlexception.printStackTrace();
+    }
+%>
 </body>
 <script>
     function checkPhone(phone){

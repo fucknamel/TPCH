@@ -95,8 +95,7 @@
         <form class="form-inline text-center" action="customer_change_ok.jsp">
             <div class="form-group">
                 <div class="input-group">
-                    <div class="input-group-addon">编号</div>
-                    <input type="text" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>">
+                    <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>" required>
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">姓名</div>

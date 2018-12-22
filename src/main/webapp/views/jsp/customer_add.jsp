@@ -72,7 +72,7 @@
     <div class="jumbotron">
         <form class="form-signin" action="/views/jsp/customer_add_ok.jsp" method="post">
             <h2 class="form-signin-heading">请填写信息</h2>
-            <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" autofocus>
+            <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
             <input type="text" name="C_ADDRESS" class="form-control" placeholder="地址" autofocus>
             <input type="text" name="C_NATIONKEY" class="form-control" placeholder="国家" autofocus>
@@ -86,4 +86,13 @@
     </div>
 </div>
 </body>
+<script>
+    function checkPhone(){
+        var phone = document.getElementById('phone').value;
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            alert("手机号码有误，请重填");
+            return false;
+        }
+    }
+</script>
 </html>

@@ -88,7 +88,7 @@
                 //out.print("Successfully connect to the databass!<br>");
                 Statement stmt = conn.createStatement();
                 //执行SQL查询语句，返回结果集
-                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT 1, 10");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT 0, 10");
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">

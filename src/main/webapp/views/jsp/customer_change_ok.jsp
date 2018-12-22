@@ -73,48 +73,50 @@
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("UPDATE customer SET");
-    if(StringUtils.isBlank(request.getParameter("C_CUSTKEY"))){
-        insertSql.append("null" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_CUSTKEY") + "', ");
-    }
+    StringBuilder insertSql = new StringBuilder("UPDATE customer SET ");
+    insertSql.append("C_NAME=");
     if(StringUtils.isBlank(request.getParameter("C_NAME"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_NAME") + "', ");
     }
+    insertSql.append("C_ADDRESS=");
     if(StringUtils.isBlank(request.getParameter("C_ADDRESS"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_ADDRESS") + "', ");
     }
+    insertSql.append("C_NATIONKEY=");
     if(StringUtils.isBlank(request.getParameter("C_NATIONKEY"))){
         insertSql.append("null" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_NATIONKEY") + "', ");
     }
+    insertSql.append("C_PHONE=");
     if(StringUtils.isBlank(request.getParameter("C_PHONE"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_PHONE") + "', ");
     }
+    insertSql.append("C_ACCTBAL=");
     if(StringUtils.isBlank(request.getParameter("C_ACCTBAL"))){
-        insertSql.append("null" + ",");
+        insertSql.append("0" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_ACCTBAL") + "', ");
     }
+    insertSql.append("C_MKTSEGMENT=");
     if(StringUtils.isBlank(request.getParameter("C_MKTSEGMENT"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_MKTSEGMENT") + "', ");
     }
+    insertSql.append("C_COMMENT=");
     if(StringUtils.isBlank(request.getParameter("C_COMMENT"))){
-        insertSql.append("null");
+        insertSql.append("''");
     }else {
         insertSql.append("'" + request.getParameter("C_COMMENT") + "'");
     }
-    insertSql.append(")");
+    insertSql.append("WHERE C_CUSTKEY='"+ request.getParameter("C_CUSTKEY") + "'");
 
 
     //连接数据库，用jdbc驱动加载mysql
@@ -140,7 +142,7 @@
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据添加成功！
+                数据修改成功！
             </h2>
         </div>
     </div>
@@ -153,7 +155,7 @@
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据添加失败
+                数据修改失败
             </h2>
         </div>
     </div>

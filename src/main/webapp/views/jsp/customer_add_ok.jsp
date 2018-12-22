@@ -74,18 +74,14 @@
 <%
     request.setCharacterEncoding("UTF-8");
     StringBuilder insertSql = new StringBuilder("INSERT INTO customer(C_CUSTKEY, C_NAME, C_ADDRESS, C_NATIONKEY, C_PHONE, C_ACCTBAL, C_MKTSEGMENT, C_COMMENT) VALUES (");
-    if(StringUtils.isBlank(request.getParameter("C_CUSTKEY"))){
-        insertSql.append("null" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_CUSTKEY") + "', ");
-    }
+    insertSql.append("'" + request.getParameter("C_CUSTKEY") + "', ");
     if(StringUtils.isBlank(request.getParameter("C_NAME"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_NAME") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("C_ADDRESS"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_ADDRESS") + "', ");
     }
@@ -95,22 +91,22 @@
         insertSql.append("'" + request.getParameter("C_NATIONKEY") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("C_PHONE"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_PHONE") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("C_ACCTBAL"))){
-        insertSql.append("null" + ",");
+        insertSql.append("0" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_ACCTBAL") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("C_MKTSEGMENT"))){
-        insertSql.append("null" + ",");
+        insertSql.append("''" + ",");
     }else {
         insertSql.append("'" + request.getParameter("C_MKTSEGMENT") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("C_COMMENT"))){
-        insertSql.append("null");
+        insertSql.append("''");
     }else {
         insertSql.append("'" + request.getParameter("C_COMMENT") + "'");
     }

@@ -218,7 +218,7 @@
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-primary"
-                                onclick="window.location.href='/TPCH/views/jsp/customer_add.jsp'">添加
+                                onclick="window.location.href='/views/jsp/customer_add.jsp'">添加
                         </button>
                     </dij>
                 </div>

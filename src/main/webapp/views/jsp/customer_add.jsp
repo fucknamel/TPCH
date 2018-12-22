@@ -70,7 +70,7 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/TPCH/views/jsp/customer_add_ok.jsp" method="post">
+        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp" method="post">
             <h2 class="form-signin-heading">请填写信息</h2>
             <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" autofocus>
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-21
-  Time: 23:56
+  Date: 2018-12-22
+  Time: 13:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -73,7 +73,7 @@
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("INSERT INTO customer(C_CUSTKEY, C_NAME, C_ADDRESS, C_NATIONKEY, C_PHONE, C_ACCTBAL, C_MKTSEGMENT, C_COMMENT) VALUES (");
+    StringBuilder insertSql = new StringBuilder("UPDATE customer SET");
     if(StringUtils.isBlank(request.getParameter("C_CUSTKEY"))){
         insertSql.append("null" + ",");
     }else {
@@ -135,7 +135,7 @@
         //关闭数据库
         stmt.close();
         conn.close();
-        %>
+%>
 <div class="container">
     <div class="jumbotron">
         <div class="alert alert-success">
@@ -146,8 +146,8 @@
     </div>
 </div>
 <%
-    } catch (SQLException sqlexception) {
-        sqlexception.printStackTrace();
+} catch (SQLException sqlexception) {
+    sqlexception.printStackTrace();
 %>
 <div class="container">
     <div class="jumbotron">

@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="com.tpch.util.PropertiesUtil" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <html>
 <head>
     <title>Title</title>
@@ -92,6 +94,12 @@
                 Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
                 //out.print("Successfully connect to the databass!<br>");
                 Statement stmt = conn.createStatement();
+                ResultSet rsq = stmt.executeQuery("SELECT * FROM nation");
+                Map map = new HashMap();
+                while (rsq.next()) {
+                    map.put(rsq.getInt("N_NATIONKEY"), rsq.getString("N_NAME"));
+                }
+                rsq.close();
                 //执行SQL查询语句，返回结果集
                 int count = 0;
                 ResultSet rsc=stmt.executeQuery("SELECT COUNT(*) totalCount FROM customer");
@@ -208,7 +216,7 @@
                 </td>
                 <td>
                     <p>
-                        <%=rs.getInt("C_NATIONKEY")%>
+                        <%=map.get(rs.getInt("C_NATIONKEY"))%>
                     </p>
                 </td>
                 <td>

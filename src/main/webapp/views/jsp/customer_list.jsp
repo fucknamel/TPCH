@@ -32,7 +32,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="/views/jsp/customer_list.jsp?curPage=1" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">消费者</a>
                 </li>
                 <li class="dropdown">
@@ -72,9 +72,12 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <%
+        <%!
+            public static final int PAGESIZE = 10;
             int curPage=1;
-            int count=0;
+            int pageCount=0;
+        %>
+        <%
             //连接数据库，用jdbc驱动加载mysql
             try {
                 Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -90,11 +93,28 @@
                 //out.print("Successfully connect to the databass!<br>");
                 Statement stmt = conn.createStatement();
                 //执行SQL查询语句，返回结果集
+                int count = 0;
                 ResultSet rsc=stmt.executeQuery("SELECT COUNT(*) totalCount FROM customer");
                 if (rsc.next()){
                     count = rsc.getInt("totalCount");
                 }
-                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT "+(curPage-1)*10+", 10");
+                if (request.getParameter("curPage")!= null){
+                    curPage = Integer.parseInt(request.getParameter("curPage"));
+                }
+                else{
+                    curPage = 1;
+                }
+                pageCount = (count%PAGESIZE==0)?(count/PAGESIZE):(count/PAGESIZE+1);
+                if (pageCount<1)
+                    pageCount = 1;
+                if (curPage>pageCount){
+                    curPage = pageCount;
+                }
+                if (curPage<1)
+                {
+                    curPage = 1;
+                }
+                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">
@@ -240,6 +260,107 @@
                 sqlexception.printStackTrace();
             }
         %>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <%
+                    if (curPage == 1){
+                %>
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
+                <%
+                    }
+                    else{
+                %>
+                <li>
+                    <a href="/views/jsp/customer_list.jsp?curPage=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <%
+                    }
+                %>
+
+                <%
+                    if (curPage<2){
+                %>
+                <li class="disabled">
+                    <span>上一页</span>
+                </li>
+                <%
+                    }
+                    else{
+                %>
+                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=curPage-1%>">上一页</a></li>
+                <%
+                    }
+                %>
+                <%
+                    int cs = 0;
+                    for (int i = curPage - 2;cs < 5;i++){
+                        if (i<1){
+                            continue;
+                        }
+                        if (i>pageCount){
+                            break;
+                        }
+                        cs++;
+                        if (i == curPage){
+                %>
+                <li class="active">
+                    <span><%=curPage%> <span class="sr-only">(current)</span></span>
+                </li>
+                <%
+                        }
+                        else{
+                %>
+                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=i%>"><%=i%></a></li>
+                <%
+                        }
+                    }
+                %>
+
+                <%
+                    if (curPage+1>pageCount){
+                %>
+                <li class="disabled">
+                    <span>下一页</span>
+                </li>
+                <%
+                }
+                else{
+                %>
+                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=curPage+1%>">下一页</a></li>
+                <%
+                    }
+                %>
+
+                <%
+                    if (curPage == pageCount){
+                %>
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&raquo;</span>
+                    </span>
+                </li>
+                <%
+                }
+                else{
+                %>
+                <li>
+                    <a href="/views/jsp/customer_list.jsp?curPage=<%=pageCount%>" aria-label="Previous">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <%
+                    }
+                %>
+
+            </ul>
+        </nav>
 
     </div>
 </div>

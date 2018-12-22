@@ -114,6 +114,7 @@
                 {
                     curPage = 1;
                 }
+                rsc.close();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
                 //成功则循环输出信息
         %>
@@ -253,6 +254,7 @@
 
         <%
                 //关闭数据库
+                rs.close();
                 stmt.close();
                 conn.close();
                 //out.print("Successfully close the databass!");

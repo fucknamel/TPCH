@@ -1,12 +1,13 @@
-<%@ page import="com.tpch.util.PropertiesUtil" %>
-<%@ page import="java.sql.*" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-22
-  Time: 11:28
+  Time: 17:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="com.tpch.util.PropertiesUtil" %>
 <html>
 <head>
     <title>Title</title>
@@ -82,61 +83,42 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String updateSql = "SELECT * FROM customer WHERE C_CUSTKEY=" + id;
+        String deleteSql = "DELETE FROM customer WHERE C_CUSTKEY = " + id;
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
         //执行SQL查询语句，返回结果集
-        ResultSet rs = stmt.executeQuery(updateSql);
-        while (rs.next()) {
+        stmt.executeUpdate(deleteSql);
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-inline text-center" action="customer_change_ok.jsp">
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>" required>
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">姓名</div>
-                    <input type="text" class="form-control" name="C_NAME" value="<%=rs.getString("C_NAME")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">地址</div>
-                    <input type="text" class="form-control" name="C_ADDRESS" value="<%=rs.getString("C_ADDRESS")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">国家</div>
-                    <input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">电话</div>
-                    <input type="text" class="form-control" name="C_PHONE" value="<%=rs.getString("C_PHONE")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">可用余额</div>
-                    <input type="text" class="form-control" name="C_ACCTBAL" value="<%=rs.getDouble("C_ACCTBAL")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">市场</div>
-                    <input type="text" class="form-control" name="C_MKTSEGMENT" value="<%=rs.getString("C_MKTSEGMENT")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">备注</div>
-                    <input type="text" class="form-control" name="C_COMMENT" value="<%=rs.getString("C_COMMENT")%>">
-                </div>
-                <button type="submit" class="btn btn-primary">提交修改</button>
-            </div>
-        </form>
+        <div class="alert alert-success">
+            <h2 class="text-center">
+                数据删除成功！
+            </h2>
+        </div>
     </div>
 </div>
 <%
-        }
-        stmt.close();
-        conn.close();
-    } catch (SQLException sqlexception) {
-        sqlexception.printStackTrace();
+    stmt.close();
+    conn.close();
+} catch (SQLException sqlexception) {
+    sqlexception.printStackTrace();
+%>
+<div class="container">
+    <div class="jumbotron">
+        <div class="alert alert-success">
+            <h2 class="text-center">
+                数据删除失败
+            </h2>
+        </div>
+    </div>
+</div>
+<%
     }
 %>
+<%-- Bootstrap --%>
+<script src="/views/js/jquery-3.3.1.min.js"></script>
+<script src="/views/js/bootstrap.min.js"></script>
 </body>
 </html>

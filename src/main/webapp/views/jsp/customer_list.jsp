@@ -32,7 +32,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">消费者</a>
                 </li>
                 <li class="dropdown">
@@ -208,7 +208,7 @@
                     <a class="btn btn-mini btn-success"
                        href="/views/jsp/customer_change.jsp?id=<%=rs.getInt("C_CUSTKEY")%>">修改</a>
                     <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/#.jsp?id=<%=rs.getInt("C_CUSTKEY")%>">删除</a>
+                       href="/views/jsp/customer_delete.jsp?id=<%=rs.getInt("C_CUSTKEY")%>">删除</a>
                 </td>
             </tr>
             <%

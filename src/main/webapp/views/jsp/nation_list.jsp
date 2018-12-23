@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-23
-  Time: 18:51
+  Time: 20:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -59,7 +59,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -81,7 +81,7 @@
         <div class="input-group">
             <input id="search" type="text" class="form-control" placeholder="搜索姓名..." value="<%=search%>" onkeypress="isenter(event)">
             <span class="input-group-btn">
-            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/region_list.jsp?search='+document.getElementById('search').value">冲!</button>
+            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/nation_list.jsp?search='+document.getElementById('search').value">冲!</button>
             </span>
         </div>
         <%
@@ -100,21 +100,21 @@
                 Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
                 //out.print("Successfully connect to the databass!<br>");
                 Statement stmt = conn.createStatement();
-//                ResultSet rsq = stmt.executeQuery("SELECT * FROM nation");
-//                Map map = new HashMap();
-//                while (rsq.next()) {
-//                    map.put(rsq.getInt("N_NATIONKEY"), rsq.getString("N_NAME"));
-//                }
-//                rsq.close();
+                ResultSet rsq = stmt.executeQuery("SELECT * FROM region");
+                Map map = new HashMap();
+                while (rsq.next()) {
+                    map.put(rsq.getInt("R_REGIONKEY"), rsq.getString("R_NAME"));
+                }
+                rsq.close();
                 //执行SQL查询语句，返回结果集
                 int count = 0;
                 ResultSet rsc = null;
                 if (!search.equals("")) {
-                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM region WHERE R_NAME LIKE '%" + search + "%' ");
+                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM nation WHERE N_NAME LIKE '%" + search + "%' ");
                 }
                 else{
                     search = "";
-                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM region");
+                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM nation");
                 }
                 if (rsc.next()){
                     count = rsc.getInt("totalCount");
@@ -138,15 +138,15 @@
                 rsc.close();
                 ResultSet rs = null;
                 if (!search.equals("")) {
-                    rs = stmt.executeQuery("SELECT * FROM region WHERE R_NAME LIKE '%" + search + "%' LIMIT " + (curPage - 1) * PAGESIZE + ", " + PAGESIZE);
+                    rs = stmt.executeQuery("SELECT * FROM nation WHERE N_NAME LIKE '%" + search + "%' LIMIT " + (curPage - 1) * PAGESIZE + ", " + PAGESIZE);
                 }
                 else{
-                    rs = stmt.executeQuery("SELECT * FROM region LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
+                    rs = stmt.executeQuery("SELECT * FROM nation LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
                 }
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">
-            <th align="center" colspan="6">
+            <th align="center" colspan="5">
                 <h2 class="text-center">详细数据信息</h2>
             </th>
             <tr align="center">
@@ -167,14 +167,7 @@
                 <td>
                     <p>
                         <strong>
-                            备注
-                        </strong>
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        <strong>
-                            供应价格
+                            所属地区
                         </strong>
                     </p>
                 </td>
@@ -199,34 +192,29 @@
             <tr align="center">
                 <td>
                     <p>
-                        <%=rs.getInt("R_REGIONKEY")%>
+                        <%=rs.getInt("N_NATIONKEY")%>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <%=rs.getString("R_NAME")%>
+                        <%=rs.getString("N_NAME")%>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <%=rs.getString("R_COMMENT")%>
+                        <%=map.get(rs.getInt("N_REGIONKEY"))%>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <%=rs.getString("PS_SUPPLYCOST")%>
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        <%=rs.getString("PS_COMMENT")%>
+                        <%=rs.getString("N_COMMENT")%>
                     </p>
                 </td>
                 <td>
                     <a class="btn btn-mini btn-success"
-                       href="/views/jsp/region_change.jsp?id=<%=rs.getInt("R_REGIONKEY")%>">修改</a>
+                       href="/views/jsp/nation_change.jsp?id=<%=rs.getInt("N_NATIONKEY")%>">修改</a>
                     <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/region_delete.jsp?id=<%=rs.getInt("R_REGIONKEY")%>">删除</a>
+                       href="/views/jsp/nation_delete.jsp?id=<%=rs.getInt("N_NATIONKEY")%>">删除</a>
                 </td>
             </tr>
             <%
@@ -236,7 +224,7 @@
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-primary"
-                                onclick="window.location.href='/views/jsp/region_add.jsp'">添加
+                                onclick="window.location.href='/views/jsp/nation_add.jsp'">添加
                         </button>
                     </div>
                 </div>
@@ -269,7 +257,7 @@
                 else{
                 %>
                 <li>
-                    <a href="/views/jsp/region_list.jsp?curPage=1&search=<%=search%>" aria-label="Previous">
+                    <a href="/views/jsp/nation_list.jsp?curPage=1&search=<%=search%>" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -287,7 +275,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/region_list.jsp?curPage=<%=curPage-1%>&search=<%=search%>">上一页</a></li>
+                <li><a href="/views/jsp/nation_list.jsp?curPage=<%=curPage-1%>&search=<%=search%>">上一页</a></li>
                 <%
                     }
                 %>
@@ -310,7 +298,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/region_list.jsp?curPage=<%=i%>&search=<%=search%>"><%=i%></a></li>
+                <li><a href="/views/jsp/nation_list.jsp?curPage=<%=i%>&search=<%=search%>"><%=i%></a></li>
                 <%
                         }
                     }
@@ -326,7 +314,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/region_list.jsp?curPage=<%=curPage+1%>&search=<%=search%>">下一页</a></li>
+                <li><a href="/views/jsp/nation_list.jsp?curPage=<%=curPage+1%>&search=<%=search%>">下一页</a></li>
                 <%
                     }
                 %>
@@ -344,7 +332,7 @@
                 else{
                 %>
                 <li>
-                    <a href="/views/jsp/region_list.jsp?curPage=<%=pageCount%>&search=<%=search%>" aria-label="Previous">
+                    <a href="/views/jsp/nation_list.jsp?curPage=<%=pageCount%>&search=<%=search%>" aria-label="Previous">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -364,9 +352,8 @@
 <script>
     function isenter(event){
         if (event.keyCode == 13){
-            window.location.href='/views/jsp/region_list.jsp?search='+document.getElementById('search').value;
+            window.location.href='/views/jsp/nation_list.jsp?search='+document.getElementById('search').value;
         }
     }
 </script>
 </html>
-

@@ -1,10 +1,14 @@
 <%@ page import="com.tpch.util.PropertiesUtil" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%--
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-23
-  Time: 19:10
+  Time: 21:16
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -57,7 +61,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -69,11 +73,11 @@
         //     form.C_PHONE.focus();
         //     return false;
         // }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
-            alert("金额必须为数字");
-            form.C_ACCTBAL.focus();
-            return false;
-        }
+        // if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
+        //     alert("金额必须为数字");
+        //     form.C_ACCTBAL.focus();
+        //     return false;
+        // }
 
         return true;
     }
@@ -93,41 +97,35 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String querySql = "SELECT * FROM nation";
+        String querySql = "SELECT * FROM region";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(querySql);
-//        Map<Integer, String> map = new HashMap<Integer, String>();
-//        List<String> list = new ArrayList<>();
-//        while (rs.next()) {
-//            map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
-//            list.add(rs.getString("N_NAME"));
-//        }
+        Map<Integer, String> map = new HashMap<>();
+        while (rs.next()) {
+            map.put(rs.getInt("R_REGIONKEY"), rs.getString("R_NAME"));
+        }
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/region_add_ok.jsp"  role="form" method="post"
+        <form class="form-signin" action="/views/jsp/nation_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
-            <input type="text" name="R_REGIONKEY" class="form-control" placeholder="编号" required autofocus>
-            <input type="text" name="R_NAME" class="form-control" placeholder="名称" autofocus>
-            <input type="text" name="R_COMMENT" class="form-control"  placeholder="备注" autofocus>
-            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <input type="text" name="PS_SUPPLYCOST" class="form-control"  placeholder="供应价格" autofocus>
-            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <%--<select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>--%>
-                <%--<option value="" disabled selected style="display: none;">供应价格</option>--%>
-                <%--<%--%>
-                    <%--for (Map.Entry<Integer, String> entry : map.entrySet()) {--%>
-                <%--%>--%>
-                <%--<option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>--%>
-                <%--</option>--%>
-                <%--<%--%>
-                    <%--}--%>
-                <%--%>--%>
-            <%--</select>--%>
-            <input type="text" name="PS_COMMENT" class="form-control" placeholder="备注" autofocus>
+            <input type="text" name="N_NATIONKEY" class="form-control" placeholder="编号" required autofocus>
+            <input type="text" name="N_NAME" class="form-control" placeholder="名称" autofocus>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="N_REGIONKEY" onchange="changecolor(this)" required>
+            <option value="" disabled selected style="display: none;">所属地区</option>
+            <%
+            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            %>
+            <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
+            </option>
+            <%
+            }
+            %>
+            </select>
+            <input type="text" name="N_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>

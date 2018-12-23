@@ -235,7 +235,7 @@
                 </td>
                 <td>
                     <p>
-                        <%=map.get(rs.getInt("C_NATIONKEY"))%>
+                        <%if (rs.getObject("C_NATIONKEY")!=null){%><%=map.get(rs.getInt("C_NATIONKEY"))%><%}%>
                     </p>
                 </td>
                 <td>

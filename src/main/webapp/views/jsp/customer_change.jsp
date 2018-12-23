@@ -133,13 +133,14 @@
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;国家&#12288;</span>
-                <select class="form-control" style="padding-left: 8px" name="C_NATIONKEY">
+                <select class="form-control" style="padding-left: 9px" name="C_NATIONKEY">
+                    <option value="">无</option>
                     <%
                         int len = list.size();
                         for (int i = 0; i < len; i++) {
                     %>
                     <option value="<%=list.get(i)%>"
-                            <%if (list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
+                            <%if (rs.getObject("C_NATIONKEY") != null && list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
                     </option>
                     <%
                         }

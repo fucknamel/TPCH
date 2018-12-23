@@ -82,7 +82,12 @@
         return true;
     }
     function changecolor(me){
-        me.style.cssText="padding-left: 9px;color: black;";
+        if (me.selectedIndex == 0){
+            me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
+        }
+        else {
+            me.style.cssText = "padding-left: 9px;color: black;";
+        }
     }
 </script>
 <%
@@ -118,8 +123,8 @@
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
             <input type="text" name="C_ADDRESS" class="form-control"  placeholder="地址" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>
-                <option value="" disabled selected style="display: none;">国家</option>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)">
+                <option value="" selected style="color: #8e8e8e;">国家</option>
                 <%
                     for (Map.Entry<Integer, String> entry : map.entrySet()) {
                 %>

@@ -2,13 +2,12 @@
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-23
-  Time: 19:58
+  Time: 21:52
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="com.tpch.util.PropertiesUtil" %>
-<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <html>
 <head>
     <title>Title</title>
@@ -58,14 +57,13 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <%
-    request.setCharacterEncoding("UTF-8");
-
+    String id = request.getParameter("id");
     //连接数据库，用jdbc驱动加载mysql
     try {
         Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -77,51 +75,25 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
+        String deleteSql = "DELETE FROM nation WHERE N_NATIONKEY = " + id;
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
-
-        StringBuilder insertSql = new StringBuilder("UPDATE region SET ");
-        insertSql.append("R_NAME=");
-        if(StringUtils.isBlank(request.getParameter("R_NAME"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("R_NAME") + "', ");
-        }
-        insertSql.append("R_COMMENT=");
-        if(StringUtils.isBlank(request.getParameter("R_COMMENT"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("R_COMMENT") + "', ");
-        }
-        insertSql.append("PS_SUPPLYCOST=");
-        if(StringUtils.isBlank(request.getParameter("PS_SUPPLYCOST"))){
-            insertSql.append("0" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("PS_SUPPLYCOST") + "', ");
-        }
-        insertSql.append("PS_COMMENT=");
-        if(StringUtils.isBlank(request.getParameter("PS_COMMENT"))){
-            insertSql.append("''");
-        }else {
-            insertSql.append("'" + request.getParameter("PS_COMMENT") + "'");
-        }
-        insertSql.append("WHERE R_REGIONKEY='"+ request.getParameter("R_REGIONKEY") + "'");
         //执行SQL查询语句，返回结果集
-        stmt.executeUpdate(insertSql.toString());
-        //关闭数据库
-        stmt.close();
-        conn.close();
+        stmt.executeUpdate(deleteSql);
 %>
 <div class="container">
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据修改成功！
+                数据删除成功！
             </h2>
         </div>
     </div>
 </div>
 <%
+    stmt.close();
+    conn.close();
 } catch (SQLException sqlexception) {
     sqlexception.printStackTrace();
 %>
@@ -129,7 +101,7 @@
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据修改失败
+                数据删除失败
             </h2>
         </div>
     </div>

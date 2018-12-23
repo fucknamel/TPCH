@@ -42,7 +42,7 @@
                     <a href="#">在线商品</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">国家</a>
+                    <a href="/views/jsp/nation_list.jsp">国家</a>
                 </li>
                 <li class="dropdown">
                     <a href="#">订单</a>
@@ -97,18 +97,18 @@
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
         String updateSql = "SELECT * FROM region WHERE R_REGIONKEY=" + id;
-        String querySql = "SELECT * FROM nation";
+//        String querySql = "SELECT * FROM nation";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
-        ResultSet rsc = stmt.executeQuery(querySql);
-        List<Integer> list = new ArrayList<>();
-        Map<Integer, String> map = new HashMap<Integer, String>();
-        while (rsc.next()) {
-            map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
-            list.add(rsc.getInt("N_NATIONKEY"));
-        }
-        rsc.close();
+//        ResultSet rsc = stmt.executeQuery(querySql);
+//        List<Integer> list = new ArrayList<>();
+//        Map<Integer, String> map = new HashMap<Integer, String>();
+//        while (rsc.next()) {
+//            map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
+//            list.add(rsc.getInt("N_NATIONKEY"));
+//        }
+//        rsc.close();
         //执行SQL查询语句，返回结果集
         ResultSet rs = stmt.executeQuery(updateSql);
 //        ResultSet rsc = stmt.executeQuery(querySql);

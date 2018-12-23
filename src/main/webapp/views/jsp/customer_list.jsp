@@ -74,6 +74,12 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
+        <div class="input-group">
+            <input id="search" type="text" class="form-control" placeholder="搜索姓名...">
+            <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value">冲!</button>
+            </span>
+        </div>
         <%!
             public static final int PAGESIZE = 10;
             int curPage=1;
@@ -123,7 +129,14 @@
                     curPage = 1;
                 }
                 rsc.close();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM customer LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
+                String search = request.getParameter("search");
+                ResultSet rs = null;
+                if (search != null) {
+                    rs = stmt.executeQuery("SELECT * FROM customer WHERE C_NAME LIKE '%" + search + "%' LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
+                }
+                else{
+                    rs = stmt.executeQuery("SELECT * FROM customer LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
+                }
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">

@@ -7,8 +7,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-21
-  Time: 23:46
+  Date: 2018-12-23
+  Time: 19:10
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -61,19 +61,19 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>消费者<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <script type="text/javascript">
     function check(form) {
-        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-            alert("请输入正确的电话号码～");
-            form.C_PHONE.focus();
-            return false;
-        }
-        if (form.C_ACCTBAL.value != '' && isNaN(form.C_ACCTBAL.value)) {
+        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
+        //     alert("请输入正确的电话号码～");
+        //     form.C_PHONE.focus();
+        //     return false;
+        // }
+        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
             alert("金额必须为数字");
             form.C_ACCTBAL.focus();
             return false;
@@ -102,37 +102,36 @@
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(querySql);
-        Map<Integer, String> map = new HashMap<Integer, String>();
-        List<String> list = new ArrayList<>();
-        while (rs.next()) {
-            map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
-            list.add(rs.getString("N_NAME"));
-        }
+//        Map<Integer, String> map = new HashMap<Integer, String>();
+//        List<String> list = new ArrayList<>();
+//        while (rs.next()) {
+//            map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
+//            list.add(rs.getString("N_NAME"));
+//        }
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp"  role="form" method="post"
+        <form class="form-signin" action="/views/jsp/region_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
-            <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
-            <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
-            <input type="text" name="C_ADDRESS" class="form-control"  placeholder="地址" autofocus>
+            <input type="text" name="R_REGIONKEY" class="form-control" placeholder="编号" required autofocus>
+            <input type="text" name="R_NAME" class="form-control" placeholder="名称" autofocus>
+            <input type="text" name="R_COMMENT" class="form-control"  placeholder="备注" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>
-                <option value="" disabled selected style="display: none;">国家</option>
-                <%
-                    for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                %>
-                <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
-                </option>
-                <%
-                    }
-                %>
-            </select>
-            <input type="text" name="C_PHONE" class="form-control" placeholder="电话" autofocus>
-            <input type="text" name="C_ACCTBAL" class="form-control" placeholder="可用余额" autofocus>
-            <input type="text" name="C_MKTSEGMENT" class="form-control" placeholder="市场" autofocus>
-            <input type="text" name="C_COMMENT" class="form-control" placeholder="备注" autofocus>
+            <input type="text" name="PS_SUPPLYCOST" class="form-control"  placeholder="供应价格" autofocus>
+            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+            <%--<select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>--%>
+                <%--<option value="" disabled selected style="display: none;">供应价格</option>--%>
+                <%--<%--%>
+                    <%--for (Map.Entry<Integer, String> entry : map.entrySet()) {--%>
+                <%--%>--%>
+                <%--<option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>--%>
+                <%--</option>--%>
+                <%--<%--%>
+                    <%--}--%>
+                <%--%>--%>
+            <%--</select>--%>
+            <input type="text" name="PS_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>

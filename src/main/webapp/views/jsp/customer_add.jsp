@@ -91,7 +91,7 @@
         return true;
     }
     function changecolor(me){
-        me.style.cssText="padding-left: 8px;color: black;";
+        me.style.cssText="padding-left: 9px;color: black;";
     }
 </script>
 <%
@@ -118,10 +118,6 @@
             list.add(rs.getString("N_NAME"));
         }
 %>
-<style>
-    select:invalid{
-        color: gray;}
-</style>
 <div class="container">
     <div class="jumbotron">
         <form class="form-signin" action="/views/jsp/customer_add_ok.jsp"  role="form" method="post"
@@ -129,9 +125,9 @@
             <h2 class="form-signin-heading">请填写信息</h2>
             <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
-            <input type="text" name="C_ADDRESS" class="form-control" placeholder="地址" autofocus>
+            <input type="text" name="C_ADDRESS" class="form-control"  placeholder="地址" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <select class="form-control" style="padding-left: 8px;color: gray;" name="C_NATIONKEY" onchange="changecolor(this)" required>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>
                 <option value="" disabled selected style="display: none;">国家</option>
                 <%
                     for (Map.Entry<Integer, String> entry : map.entrySet()) {

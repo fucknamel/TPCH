@@ -87,9 +87,9 @@
 <div class="container">
     <div class="jumbotron">
         <div class="input-group">
-            <input id="search" type="text" class="form-control" placeholder="搜索姓名..." value="<%=search%>">
+            <input id="search" type="text" class="form-control" placeholder="搜索姓名..." value="<%=search%>" onkeypress="isenter(event)">
             <span class="input-group-btn">
-            <button class="btn btn-default" type="button" onclick="window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value">冲!</button>
+            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value">冲!</button>
             </span>
         </div>
         <%
@@ -405,4 +405,11 @@
 <script src="/views/js/jquery-3.3.1.min.js"></script>
 <script src="/views/js/bootstrap.min.js"></script>
 </body>
+<script>
+    function isenter(event){
+        if (event.keyCode == 13){
+            window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value;
+        }
+    }
+</script>
 </html>

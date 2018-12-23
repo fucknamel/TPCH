@@ -72,19 +72,26 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+<%!
+    public static final int PAGESIZE = 10;
+    String search = null;
+    int curPage=1;
+    int pageCount=0;
+%>
+<%
+    search = request.getParameter("search");
+    if (!(search != null && !search.equals("null") && !search.equals(""))){
+        search = "";
+    }
+%>
 <div class="container">
     <div class="jumbotron">
         <div class="input-group">
-            <input id="search" type="text" class="form-control" placeholder="搜索姓名...">
+            <input id="search" type="text" class="form-control" placeholder="搜索姓名..." value="<%=search%>">
             <span class="input-group-btn">
             <button class="btn btn-default" type="button" onclick="window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value">冲!</button>
             </span>
         </div>
-        <%!
-            public static final int PAGESIZE = 10;
-            int curPage=1;
-            int pageCount=0;
-        %>
         <%
             request.setCharacterEncoding("UTF-8");
             //连接数据库，用jdbc驱动加载mysql
@@ -109,7 +116,14 @@
                 rsq.close();
                 //执行SQL查询语句，返回结果集
                 int count = 0;
-                ResultSet rsc=stmt.executeQuery("SELECT COUNT(*) totalCount FROM customer");
+                ResultSet rsc = null;
+                if (!search.equals("")) {
+                        rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM customer WHERE C_NAME LIKE '%" + search + "%' ");
+                }
+                else{
+                    search = "";
+                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM customer");
+                }
                 if (rsc.next()){
                     count = rsc.getInt("totalCount");
                 }
@@ -130,10 +144,9 @@
                     curPage = 1;
                 }
                 rsc.close();
-                String search = request.getParameter("search");
                 ResultSet rs = null;
-                if (search != null) {
-                    rs = stmt.executeQuery("SELECT * FROM customer WHERE C_NAME LIKE '%" + search + "%' LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
+                if (!search.equals("")) {
+                        rs = stmt.executeQuery("SELECT * FROM customer WHERE C_NAME LIKE '%" + search + "%' LIMIT " + (curPage - 1) * PAGESIZE + ", " + PAGESIZE);
                 }
                 else{
                     rs = stmt.executeQuery("SELECT * FROM customer LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
@@ -300,7 +313,7 @@
                     else{
                 %>
                 <li>
-                    <a href="/views/jsp/customer_list.jsp?curPage=1" aria-label="Previous">
+                    <a href="/views/jsp/customer_list.jsp?curPage=1&search=<%=search%>" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -318,7 +331,7 @@
                     }
                     else{
                 %>
-                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=curPage-1%>">上一页</a></li>
+                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=curPage-1%>&search=<%=search%>">上一页</a></li>
                 <%
                     }
                 %>
@@ -341,7 +354,7 @@
                         }
                         else{
                 %>
-                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=i%>"><%=i%></a></li>
+                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=i%>&search=<%=search%>"><%=i%></a></li>
                 <%
                         }
                     }
@@ -357,7 +370,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=curPage+1%>">下一页</a></li>
+                <li><a href="/views/jsp/customer_list.jsp?curPage=<%=curPage+1%>&search=<%=search%>">下一页</a></li>
                 <%
                     }
                 %>
@@ -375,7 +388,7 @@
                 else{
                 %>
                 <li>
-                    <a href="/views/jsp/customer_list.jsp?curPage=<%=pageCount%>" aria-label="Previous">
+                    <a href="/views/jsp/customer_list.jsp?curPage=<%=pageCount%>&search=<%=search%>" aria-label="Previous">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

@@ -90,6 +90,9 @@
 
         return true;
     }
+    function changecolor(me){
+        me.style.cssText="padding-left: 8px;color: black;";
+    }
 </script>
 <%
     //连接数据库，用jdbc驱动加载mysql
@@ -128,12 +131,12 @@
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
             <input type="text" name="C_ADDRESS" class="form-control" placeholder="地址" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <select class="form-control" style="padding-left: 8px;" name="C_NATIONKEY" required>
+            <select class="form-control" style="padding-left: 8px;color: gray;" name="C_NATIONKEY" onchange="changecolor(this)" required>
                 <option value="" disabled selected style="display: none;">国家</option>
                 <%
                     for (Map.Entry<Integer, String> entry : map.entrySet()) {
                 %>
-                <option value="<%=entry.getKey()%>"><%=entry.getValue()%>
+                <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
                 </option>
                 <%
                     }

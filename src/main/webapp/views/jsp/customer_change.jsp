@@ -94,6 +94,7 @@
 <%
     request.setCharacterEncoding("UTF-8");
     String id = request.getParameter("id");
+    int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
         Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -125,7 +126,7 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/customer_change_ok.jsp" role="form" method="post"
+        <form class="form-signin" action="/views/jsp/customer_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="C_CUSTKEY" class="form-control" value="<%=rs.getInt("C_CUSTKEY")%>">

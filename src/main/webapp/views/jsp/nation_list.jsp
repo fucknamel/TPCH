@@ -202,7 +202,7 @@
                 </td>
                 <td>
                     <p>
-                        <%=map.get(rs.getInt("N_REGIONKEY"))%>
+                        <%if (rs.getObject("N_REGIONKEY")!=null){%><%=map.get(rs.getInt("N_REGIONKEY"))%><%}%>
                     </p>
                 </td>
                 <td>
@@ -212,9 +212,9 @@
                 </td>
                 <td>
                     <a class="btn btn-mini btn-success"
-                       href="/views/jsp/nation_change.jsp?id=<%=rs.getInt("N_NATIONKEY")%>">修改</a>
+                       href="/views/jsp/nation_change.jsp?id=<%=rs.getInt("N_NATIONKEY")%>&rpage=<%=curPage%>">修改</a>
                     <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/nation_delete.jsp?id=<%=rs.getInt("N_NATIONKEY")%>">删除</a>
+                       href="/views/jsp/nation_delete.jsp?id=<%=rs.getInt("N_NATIONKEY")%>&rpage=<%=curPage%>">删除</a>
                 </td>
             </tr>
             <%

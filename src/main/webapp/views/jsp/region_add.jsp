@@ -71,7 +71,7 @@
         // }
         if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
             alert("金额必须为数字");
-            form.C_ACCTBAL.focus();
+            form.PS_SUPPLYCOST.focus();
             return false;
         }
 

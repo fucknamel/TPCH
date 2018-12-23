@@ -260,9 +260,9 @@
                 </td>
                 <td>
                     <a class="btn btn-mini btn-success"
-                       href="/views/jsp/customer_change.jsp?id=<%=rs.getInt("C_CUSTKEY")%>">修改</a>
+                       href="/views/jsp/customer_change.jsp?id=<%=rs.getInt("C_CUSTKEY")%>&rpage=<%=curPage%>">修改</a>
                     <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/customer_delete.jsp?id=<%=rs.getInt("C_CUSTKEY")%>">删除</a>
+                       href="/views/jsp/customer_delete.jsp?id=<%=rs.getInt("C_CUSTKEY")%>&rpage=<%=curPage%>">删除</a>
                 </td>
             </tr>
             <%

@@ -65,7 +65,7 @@
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-
+    int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
         Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -118,6 +118,7 @@
             <h2 class="text-center">
                 数据修改成功！
             </h2>
+            <a href="/views/jsp/region_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -131,6 +132,7 @@
             <h2 class="text-center">
                 数据修改失败
             </h2>
+            <a href="/views/jsp/region_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

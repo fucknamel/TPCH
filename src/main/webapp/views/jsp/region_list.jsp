@@ -224,9 +224,9 @@
                 </td>
                 <td>
                     <a class="btn btn-mini btn-success"
-                       href="/views/jsp/region_change.jsp?id=<%=rs.getInt("R_REGIONKEY")%>">修改</a>
+                       href="/views/jsp/region_change.jsp?id=<%=rs.getInt("R_REGIONKEY")%>&rpage=<%=curPage%>">修改</a>
                     <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/region_delete.jsp?id=<%=rs.getInt("R_REGIONKEY")%>">删除</a>
+                       href="/views/jsp/region_delete.jsp?id=<%=rs.getInt("R_REGIONKEY")%>&rpage=<%=curPage%>">删除</a>
                 </td>
             </tr>
             <%

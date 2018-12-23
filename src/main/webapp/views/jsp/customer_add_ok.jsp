@@ -130,6 +130,7 @@
             <h2 class="text-center">
                 数据添加成功！
             </h2>
+            <a href="/views/jsp/customer_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -143,6 +144,7 @@
             <h2 class="text-center">
                 数据添加失败
             </h2>
+            <a href="/views/jsp/customer_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

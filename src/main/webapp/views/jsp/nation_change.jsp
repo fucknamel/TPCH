@@ -85,6 +85,7 @@
 <%
     request.setCharacterEncoding("UTF-8");
     String id = request.getParameter("id");
+    int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
         Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -116,7 +117,7 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/nation_change_ok.jsp" role="form" method="post"
+        <form class="form-signin" action="/views/jsp/nation_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="N_NATIONKEY" class="form-control" value="<%=rs.getInt("N_NATIONKEY")%>">
@@ -126,14 +127,15 @@
                        value="<%=rs.getString("N_NAME")%>">
             </div>
             <div class="input-group">
-                <span class="input-group-addon">&#12288;所属地区&#12288;</span>
-                <select class="form-control" style="padding-left: 8px" name="N_REGIONKEY">
+                <span class="input-group-addon">所属地区</span>
+                <select class="form-control" style="padding-left: 9px" name="N_REGIONKEY">
+                    <option value="">无</option>
                     <%
                         int len = list.size();
                         for (int i = 0; i < len; i++) {
                     %>
                     <option value="<%=list.get(i)%>"
-                            <%if (list.get(i).equals(rs.getInt("N_REGIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
+                            <%if (rs.getObject("N_REGIONKEY") != null && list.get(i).equals(rs.getInt("N_REGIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
                     </option>
                     <%
                         }

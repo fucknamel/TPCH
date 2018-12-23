@@ -67,22 +67,13 @@
     </div>
 </nav>
 <script type="text/javascript">
-    function check(form) {
-        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-        //     alert("请输入正确的电话号码～");
-        //     form.C_PHONE.focus();
-        //     return false;
-        // }
-        // if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
-        //     alert("金额必须为数字");
-        //     form.C_ACCTBAL.focus();
-        //     return false;
-        // }
-
-        return true;
-    }
     function changecolor(me){
-        me.style.cssText="padding-left: 9px;color: black;";
+        if (me.selectedIndex == 0){
+            me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
+        }
+        else {
+            me.style.cssText = "padding-left: 9px;color: black;";
+        }
     }
 </script>
 <%
@@ -109,21 +100,22 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/nation_add_ok.jsp"  role="form" method="post"
+        <form class="form-signin" action="/views/jsp/nation_add_ok.jsp" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
             <input type="text" name="N_NATIONKEY" class="form-control" placeholder="编号" required autofocus>
             <input type="text" name="N_NAME" class="form-control" placeholder="名称" autofocus>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="N_REGIONKEY" onchange="changecolor(this)" required>
-            <option value="" disabled selected style="display: none;">所属地区</option>
-            <%
-            for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            %>
-            <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
-            </option>
-            <%
-            }
-            %>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="N_REGIONKEY"
+                    onchange="changecolor(this)">
+                <option value="" selected style="color: #8e8e8e;">所属地区</option>
+                <%
+                    for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                %>
+                <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
+                </option>
+                <%
+                    }
+                %>
             </select>
             <input type="text" name="N_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
@@ -140,12 +132,4 @@
     }
 %>
 </body>
-<script>
-    function checkPhone(phone) {
-        if (!(/^1[34578]\d{9}$/.test(phone))) {
-            return false;
-        }
-        return true;
-    }
-</script>
 </html>

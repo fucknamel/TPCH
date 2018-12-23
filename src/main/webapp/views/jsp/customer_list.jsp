@@ -298,7 +298,7 @@
             }
         %>
 
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" style="text-align: center">
             <ul class="pagination">
                 <%
                     if (curPage == 1){

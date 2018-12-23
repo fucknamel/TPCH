@@ -92,6 +92,7 @@
     }
 </script>
 <%
+    request.setCharacterEncoding("UTF-8");
     String id = request.getParameter("id");
     //连接数据库，用jdbc驱动加载mysql
     try {
@@ -110,11 +111,11 @@
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
         ResultSet rsc = stmt.executeQuery(querySql);
-        List<String> list = new ArrayList<>();
-        Map map = new HashMap();
+        List<Integer> list = new ArrayList<>();
+        Map<Integer, String> map = new HashMap<Integer, String>();
         while (rsc.next()) {
             map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
-            list.add(rsc.getString("N_NAME"));
+            list.add(rsc.getInt("N_NATIONKEY"));
         }
         rsc.close();
         //执行SQL查询语句，返回结果集
@@ -124,56 +125,58 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-inline text-center" action="/views/jsp/customer_change_ok.jsp" onsubmit="return check(this)">
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="hidden" class="form-control" name="C_CUSTKEY" value="<%=rs.getInt("C_CUSTKEY")%>"
-                           required>
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">姓名</div>
-                    <input type="text" class="form-control" name="C_NAME" value="<%=rs.getString("C_NAME")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">地址</div>
-                    <input type="text" class="form-control" name="C_ADDRESS" value="<%=rs.getString("C_ADDRESS")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">国家</div>
-                    <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-                    <select class="form-control" name="C_NATIONKEY">
-                        <option><%=map.get(rs.getInt("C_NATIONKEY"))%></option>
-                        <%
-                            int len = list.size();
-                            for (int i = 0; i < len; i++) {
-                                if (!list.get(i).equals(map.get(rs.getInt("C_NATIONKEY")))) {
-                        %>
-                        <option><%=list.get(i)%></option>
-                        <%
-                                }
-                            }
-                        %>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">电话</div>
-                    <input type="text" class="form-control" name="C_PHONE" value="<%=rs.getString("C_PHONE")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">可用余额</div>
-                    <input type="text" class="form-control" name="C_ACCTBAL" value="<%=rs.getDouble("C_ACCTBAL")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">市场</div>
-                    <input type="text" class="form-control" name="C_MKTSEGMENT"
-                           value="<%=rs.getString("C_MKTSEGMENT")%>">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-addon">备注</div>
-                    <input type="text" class="form-control" name="C_COMMENT" value="<%=rs.getString("C_COMMENT")%>">
-                </div>
-                <button type="submit" class="btn btn-primary">提交修改</button>
+        <form class="form-signin" action="/views/jsp/customer_change_ok.jsp" role="form" method="post"
+              onsubmit="return check(this)">
+            <h2 class="form-signin-heading">请修改信息</h2>
+            <input type="hidden" name="C_CUSTKEY" class="form-control" value="<%=rs.getInt("C_CUSTKEY")%>">
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;姓名&#12288;</span>
+                <input type="text" name="C_NAME" class="form-control"
+                       value="<%=rs.getString("C_NAME")%>">
             </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;地址&#12288;</span>
+                <input type="text" name="C_ADDRESS" class="form-control"
+                       value="<%=rs.getString("C_ADDRESS")%>">
+            </div>
+            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;国家&#12288;</span>
+                <select class="form-control" style="padding-left: 8px" name="C_NATIONKEY">
+                    <%
+                        int len = list.size();
+                        for (int i = 0; i < len; i++) {
+                    %>
+                    <option value="<%=list.get(i)%>"
+                            <%if (list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
+                    </option>
+                    <%
+                        }
+                    %>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;电话&#12288;</span>
+                <input type="text" name="C_PHONE" class="form-control"
+                       value="<%=rs.getString("C_PHONE")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">可用余额</span>
+                <input type="text" name="C_ACCTBAL" class="form-control"
+                       value="<%=rs.getDouble("C_ACCTBAL")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;市场&#12288;</span>
+                <input type="text" name="C_MKTSEGMENT" class="form-control"
+                       value="<%=rs.getString("C_MKTSEGMENT")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;备注&#12288;</span>
+                <input type="text" name="C_COMMENT" class="form-control"
+                       value="<%=rs.getString("C_COMMENT")%>">
+            </div>
+            <div class="span12"><br></div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>
         </form>
     </div>
 </div>

@@ -80,6 +80,7 @@
             int pageCount=0;
         %>
         <%
+            request.setCharacterEncoding("UTF-8");
             //连接数据库，用jdbc驱动加载mysql
             try {
                 Class.forName(PropertiesUtil.getProperty("db.name"));

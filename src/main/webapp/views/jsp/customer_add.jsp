@@ -36,7 +36,8 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
                        aria-expanded="false">消费者</a>
                 </li>
                 <li class="dropdown">
@@ -75,13 +76,13 @@
     </div>
 </nav>
 <script type="text/javascript">
-    function check(form){
-        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value)==false){
+    function check(form) {
+        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
             alert("请输入正确的电话号码～");
             form.C_PHONE.focus();
             return false;
         }
-        if (form.C_ACCTBAL.value !='' && isNaN(form.C_ACCTBAL.value)){
+        if (form.C_ACCTBAL.value != '' && isNaN(form.C_ACCTBAL.value)) {
             alert("金额必须为数字");
             form.C_ACCTBAL.focus();
             return false;
@@ -107,35 +108,37 @@
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(querySql);
+        Map<Integer, String> map = new HashMap<Integer, String>();
         List<String> list = new ArrayList<>();
-        Map map = new HashMap();
         while (rs.next()) {
             map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
             list.add(rs.getString("N_NAME"));
         }
 %>
+<style>
+    select:invalid{
+        color: gray;}
+</style>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp" method="post" onsubmit="return check(this)">
+        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp"  role="form" method="post"
+              onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
             <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
             <input type="text" name="C_ADDRESS" class="form-control" placeholder="地址" autofocus>
-            <input type="text" name="C_NATIONKEY" class="form-control" placeholder="国家" autofocus>
-            <div class="input-group">
-                <div class="input-group-addon">国家</div>
-                <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-                <select class="form-control" name="C_NATIONKEY">
-                    <%
-                        int len = list.size();
-                        for (int i = 0; i < len; i++) {
-                    %>
-                    <option><%=list.get(i)%></option>
-                    <%
-                        }
-                    %>
-                </select>
-            </div>
+            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+            <select class="form-control" style="padding-left: 8px;" name="C_NATIONKEY" required>
+                <option value="" disabled selected style="display: none;">国家</option>
+                <%
+                    for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                %>
+                <option value="<%=entry.getKey()%>"><%=entry.getValue()%>
+                </option>
+                <%
+                    }
+                %>
+            </select>
             <input type="text" name="C_PHONE" class="form-control" placeholder="电话" autofocus>
             <input type="text" name="C_ACCTBAL" class="form-control" placeholder="可用余额" autofocus>
             <input type="text" name="C_MKTSEGMENT" class="form-control" placeholder="市场" autofocus>
@@ -155,8 +158,8 @@
 %>
 </body>
 <script>
-    function checkPhone(phone){
-        if(!(/^1[34578]\d{9}$/.test(phone))){
+    function checkPhone(phone) {
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
             return false;
         }
         return true;

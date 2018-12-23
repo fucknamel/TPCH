@@ -90,12 +90,6 @@
         String PASSWORD = PropertiesUtil.getProperty("db.password");
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM nation");
-        Map map = new HashMap<>();
-        while (rs.next()) {
-            map.put(rs.getString("N_NAME"), rs.getInt("N_NATIONKEY"));
-        }
-        rs.close();
 
         StringBuilder insertSql = new StringBuilder("UPDATE customer SET ");
         insertSql.append("C_NAME=");
@@ -114,7 +108,7 @@
         if(StringUtils.isBlank(request.getParameter("C_NATIONKEY"))){
             insertSql.append("null" + ",");
         }else {
-            insertSql.append("'" + map.get(request.getParameter("C_NATIONKEY")) + "', ");
+            insertSql.append("'" + request.getParameter("C_NATIONKEY") + "', ");
         }
         insertSql.append("C_PHONE=");
         if(StringUtils.isBlank(request.getParameter("C_PHONE"))){

@@ -7,10 +7,11 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 19:30
+  Date: 2018-12-24
+  Time: 11:22
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -61,31 +62,36 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>供应商<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <script type="text/javascript">
     function check(form) {
-        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-        //     alert("请输入正确的电话号码～");
-        //     form.C_PHONE.focus();
-        //     return false;
-        // }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
+        if (form.S_PHONE.value != '' && checkPhone(form.S_PHONE.value) == false) {
+            alert("请输入正确的电话号码～");
+            form.S_PHONE.focus();
+            return false;
+        }
+        if (form.S_ACCTBAL.value != '' && isNaN(form.S_ACCTBAL.value)) {
             alert("金额必须为数字");
-            form.PS_SUPPLYCOST.focus();
+            form.S_ACCTBAL.focus();
             return false;
         }
 
         return true;
     }
+    function changecolor(me){
+        if (me.selectedIndex == 0){
+            me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
+        }
+        else {
+            me.style.cssText = "padding-left: 9px;color: black;";
+        }
+    }
 </script>
 <%
-    request.setCharacterEncoding("UTF-8");
-    String id = request.getParameter("id");
-    int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
         Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -97,73 +103,48 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String updateSql = "SELECT * FROM region WHERE R_REGIONKEY=" + id;
-//        String querySql = "SELECT * FROM nation";
+        String querySql = "SELECT * FROM nation";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
-//        ResultSet rsc = stmt.executeQuery(querySql);
-//        List<Integer> list = new ArrayList<>();
-//        Map<Integer, String> map = new HashMap<Integer, String>();
-//        while (rsc.next()) {
-//            map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
-//            list.add(rsc.getInt("N_NATIONKEY"));
-//        }
-//        rsc.close();
-        //执行SQL查询语句，返回结果集
-        ResultSet rs = stmt.executeQuery(updateSql);
-//        ResultSet rsc = stmt.executeQuery(querySql);
+        ResultSet rs = stmt.executeQuery(querySql);
+        Map<Integer, String> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
         while (rs.next()) {
+            map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
+            list.add(rs.getString("N_NAME"));
+        }
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/region_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
+        <form class="form-signin" action="/views/jsp/supplier_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
-            <h2 class="form-signin-heading">请修改信息</h2>
-            <input type="hidden" name="R_REGIONKEY" class="form-control" value="<%=rs.getInt("R_REGIONKEY")%>">
-            <div class="input-group">
-                <span class="input-group-addon">&#12288;名称&#12288;</span>
-                <input type="text" name="R_NAME" class="form-control"
-                       value="<%=rs.getString("R_NAME")%>">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">&#12288;备注&#12288;</span>
-                <input type="text" name="R_COMMENT" class="form-control"
-                       value="<%=rs.getString("R_COMMENT")%>">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">供应价格</span>
-                <input type="text" name="PS_SUPPLYCOST" class="form-control"
-                       value="<%=rs.getString("PS_SUPPLYCOST")%>">
-            </div>
+            <h2 class="form-signin-heading">请填写信息</h2>
+            <input type="text" name="S_SUPPKEY" class="form-control" placeholder="编号" required autofocus>
+            <input type="text" name="S_NAME" class="form-control" placeholder="名称" autofocus>
+            <input type="text" name="S_ADDRESS" class="form-control"  placeholder="地址" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <%--<div class="input-group">--%>
-                <%--<span class="input-group-addon">&#12288;供应价格&#12288;</span>--%>
-                <%--<select class="form-control" style="padding-left: 8px" name="PS_SUPPLYCOST">--%>
-                    <%--<%--%>
-                        <%--int len = list.size();--%>
-                        <%--for (int i = 0; i < len; i++) {--%>
-                    <%--%>--%>
-                    <%--<option value="<%=list.get(i)%>"--%>
-                            <%--<%if (list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>--%>
-                    <%--</option>--%>
-                    <%--<%--%>
-                        <%--}--%>
-                    <%--%>--%>
-                <%--</select>--%>
-            <%--</div>--%>
-            <div class="input-group">
-                <span class="input-group-addon">&#12288;备注&#12288;</span>
-                <input type="text" name="PS_COMMENT" class="form-control"
-                       value="<%=rs.getString("PS_COMMENT")%>">
-            </div>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="S_NATIONKEY" onchange="changecolor(this)">
+                <option value="" selected style="color: #8e8e8e;">国家</option>
+                <%
+                    for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                %>
+                <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
+                </option>
+                <%
+                    }
+                %>
+            </select>
+            <input type="text" name="S_PHONE" class="form-control" placeholder="电话" autofocus>
+            <input type="text" name="S_ACCTBAL" class="form-control" placeholder="账户余额" autofocus>
+            <input type="text" name="S_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>
     </div>
 </div>
 <%
-        }
+        rs.close();
         stmt.close();
         conn.close();
     } catch (SQLException sqlexception) {

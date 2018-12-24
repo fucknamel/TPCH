@@ -55,7 +55,7 @@
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供货商</a>
+                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

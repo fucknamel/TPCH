@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 21:38
+  Date: 2018-12-24
+  Time: 11:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -58,29 +58,44 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>供应商<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("INSERT INTO nation(N_NATIONKEY, N_NAME, N_REGIONKEY, N_COMMENT) VALUES (");
-    insertSql.append("'" + request.getParameter("N_NATIONKEY") + "', ");
-    if(StringUtils.isBlank(request.getParameter("N_NAME"))){
+    StringBuilder insertSql = new StringBuilder("INSERT INTO supplier(S_SUPPKEY, S_NAME, S_ADDRESS, S_NATIONKEY, S_PHONE, S_ACCTBAL, S_COMMENT) VALUES (");
+    insertSql.append("'" + request.getParameter("S_SUPPKEY") + "', ");
+    if(StringUtils.isBlank(request.getParameter("S_NAME"))){
         insertSql.append("''" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("N_NAME") + "', ");
+        insertSql.append("'" + request.getParameter("S_NAME") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("N_REGIONKEY"))){
+    if(StringUtils.isBlank(request.getParameter("S_ADDRESS"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("S_ADDRESS") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("S_NATIONKEY"))){
         insertSql.append("null" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("N_REGIONKEY") + "', ");
+        insertSql.append("'" + request.getParameter("S_NATIONKEY") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("N_COMMENT"))){
+    if(StringUtils.isBlank(request.getParameter("S_PHONE"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("S_PHONE") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("S_ACCTBAL"))){
+        insertSql.append("0" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("S_ACCTBAL") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("S_COMMENT"))){
         insertSql.append("''");
     }else {
-        insertSql.append("'" + request.getParameter("N_COMMENT") + "'");
+        insertSql.append("'" + request.getParameter("S_COMMENT") + "'");
     }
     insertSql.append(")");
 
@@ -110,7 +125,7 @@
             <h2 class="text-center">
                 数据添加成功！
             </h2>
-            <a href="/views/jsp/nation_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/supplier_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -124,7 +139,7 @@
             <h2 class="text-center">
                 数据添加失败
             </h2>
-            <a href="/views/jsp/nation_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/supplier_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

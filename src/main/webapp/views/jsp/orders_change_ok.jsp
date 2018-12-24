@@ -1,13 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 19:27
+  Date: 2018-12-22
+  Time: 13:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="com.tpch.util.PropertiesUtil" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
 <html>
 <head>
     <title>Title</title>
@@ -63,7 +66,7 @@
     </div>
 </nav>
 <%
-    String id = request.getParameter("id");
+    request.setCharacterEncoding("UTF-8");
     int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
@@ -76,26 +79,76 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String deleteSql = "DELETE FROM region WHERE R_REGIONKEY = " + id;
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
+
+        StringBuilder insertSql = new StringBuilder("UPDATE orders SET ");
+        insertSql.append("O_CUSTKEY=");
+        if(StringUtils.isBlank(request.getParameter("O_CUSTKEY"))){
+            insertSql.append("null" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_CUSTKEY") + "', ");
+        }
+        insertSql.append("O_ORDERSTATUS=");
+        if(StringUtils.isBlank(request.getParameter("O_ORDERSTATUS"))){
+            insertSql.append("'否'" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_ORDERSTATUS") + "', ");
+        }
+        insertSql.append("O_TOTALPRICE=");
+        if(StringUtils.isBlank(request.getParameter("O_TOTALPRICE"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_TOTALPRICE") + "', ");
+        }
+        insertSql.append("O_ORDERDATE=");
+        if(StringUtils.isBlank(request.getParameter("O_ORDERDATE"))){
+            insertSql.append("'2008-08-08'" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_ORDERDATE") + "', ");
+        }
+        insertSql.append("O_ORDERPRIORITY=");
+        if(StringUtils.isBlank(request.getParameter("O_ORDERPRIORITY"))){
+            insertSql.append("默认" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_ORDERPRIORITY") + "', ");
+        }
+        insertSql.append("O_CLERK=");
+        if(StringUtils.isBlank(request.getParameter("O_CLERK"))){
+            insertSql.append("'某员工'" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_CLERK") + "', ");
+        }
+        insertSql.append("O_SHIPPRIORITY=");
+        if(StringUtils.isBlank(request.getParameter("O_SHIPPRIORITY"))){
+            insertSql.append("3" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("O_SHIPPRIORITY") + "', ");
+        }
+        insertSql.append("O_COMMENT=");
+        if(StringUtils.isBlank(request.getParameter("O_COMMENT"))){
+            insertSql.append("''");
+        }else {
+            insertSql.append("'" + request.getParameter("O_COMMENT") + "'");
+        }
+        insertSql.append("WHERE O_ORDERKEY='"+ request.getParameter("O_ORDERKEY") + "'");
         //执行SQL查询语句，返回结果集
-        stmt.executeUpdate(deleteSql);
+        stmt.executeUpdate(insertSql.toString());
+        //关闭数据库
+        stmt.close();
+        conn.close();
 %>
 <div class="container">
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据删除成功！
+                数据修改成功！
             </h2>
-            <a href="/views/jsp/region_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/orders_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
 <%
-    stmt.close();
-    conn.close();
 } catch (SQLException sqlexception) {
     sqlexception.printStackTrace();
 %>
@@ -103,9 +156,9 @@
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据删除失败
+                数据修改失败
             </h2>
-            <a href="/views/jsp/region_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/orders_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

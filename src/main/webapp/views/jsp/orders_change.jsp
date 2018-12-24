@@ -19,6 +19,7 @@
     <link href="/views/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <%-- Custom styles for this template --%>
     <link href="/views/css/navbar-fixed-top.css" rel="stylesheet">
+    <link href="/views/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -61,21 +62,16 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>消费者<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>订单<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <script type="text/javascript">
     function check(form) {
-        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-            alert("请输入正确的电话号码～");
-            form.C_PHONE.focus();
-            return false;
-        }
-        if (form.C_ACCTBAL.value != '' && isNaN(form.C_ACCTBAL.value)) {
+        if (form.O_TOTALPRICE.value != '' && isNaN(form.O_TOTALPRICE.value)) {
             alert("金额必须为数字");
-            form.C_ACCTBAL.focus();
+            form.O_TOTALPRICE.focus();
             return false;
         }
 
@@ -97,8 +93,8 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String updateSql = "SELECT * FROM customer WHERE C_CUSTKEY=" + id;
-        String querySql = "SELECT * FROM nation";
+        String updateSql = "SELECT * FROM orders WHERE O_ORDERKEY=" + id;
+        String querySql = "SELECT * FROM customer";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
@@ -106,8 +102,8 @@
         List<Integer> list = new ArrayList<>();
         Map<Integer, String> map = new HashMap<Integer, String>();
         while (rsc.next()) {
-            map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
-            list.add(rsc.getInt("N_NATIONKEY"));
+            map.put(rsc.getInt("C_CUSTKEY"), rsc.getString("C_NAME"));
+            list.add(rsc.getInt("C_CUSTKEY"));
         }
         rsc.close();
         //执行SQL查询语句，返回结果集
@@ -117,31 +113,19 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/customer_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
+        <form class="form-signin" action="/views/jsp/orders_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
-            <input type="hidden" name="C_CUSTKEY" class="form-control" value="<%=rs.getInt("C_CUSTKEY")%>">
+            <input type="hidden" name="O_ORDERKEY" class="form-control" value="<%=rs.getInt("O_ORDERKEY")%>">
             <div class="input-group">
-                <span class="input-group-addon">&#12288;姓名&#12288;</span>
-                <input type="text" name="C_NAME" class="form-control"
-                       value="<%=rs.getString("C_NAME")%>">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">&#12288;地址&#12288;</span>
-                <input type="text" name="C_ADDRESS" class="form-control"
-                       value="<%=rs.getString("C_ADDRESS")%>">
-            </div>
-            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <div class="input-group">
-                <span class="input-group-addon">&#12288;国家&#12288;</span>
-                <select class="form-control" style="padding-left: 9px" name="C_NATIONKEY">
-                    <option value="">无</option>
+                <span class="input-group-addon">&#12288;&#12288;顾客&#12288;&#12288;</span>
+                <select class="form-control" style="padding-left: 9px" name="O_CUSTKEY" required>
                     <%
                         int len = list.size();
                         for (int i = 0; i < len; i++) {
                     %>
                     <option value="<%=list.get(i)%>"
-                            <%if (rs.getObject("C_NATIONKEY") != null && list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
+                            <%if (rs.getObject("O_CUSTKEY") != null && list.get(i).equals(rs.getInt("O_CUSTKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
                     </option>
                     <%
                         }
@@ -149,24 +133,53 @@
                 </select>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">&#12288;电话&#12288;</span>
-                <input type="text" name="C_PHONE" class="form-control"
-                       value="<%=rs.getString("C_PHONE")%>">
+                <span class="input-group-addon">&#12288;订单状态&#12288;</span>
+                <select class="form-control" style="padding-left: 9px" name="O_ORDERSTATUS" required>
+                    <option value="否">未完成</option>
+                    <option value="是" <%if (rs.getString("O_ORDERSTATUS").equals("是")){%>selected<%}%>>已完成</option>
+                </select>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">可用余额</span>
-                <input type="text" name="C_ACCTBAL" class="form-control"
-                       value="<%=rs.getDouble("C_ACCTBAL")%>">
+                <span class="input-group-addon">&#12288;订单金额&#12288;</span>
+                <input type="text" name="O_TOTALPRICE" class="form-control"
+                       value="<%=rs.getDouble("O_TOTALPRICE")%>">
+            </div>
+            <div class='input-group date' id='datetimepicker'>
+                <span class="input-group-addon">&#12288;订单日期&#12288;</span>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                <input type='text' class="form-control" name="O_ORDERDATE" value="<%=rs.getString("O_ORDERDATE")%>">
             </div>
             <div class="input-group">
-                <span class="input-group-addon">&#12288;市场&#12288;</span>
-                <input type="text" name="C_MKTSEGMENT" class="form-control"
-                       value="<%=rs.getString("C_MKTSEGMENT")%>">
+                <span class="input-group-addon">&#12288;&#8194;优先级&#8194;&#12288;</span>
+                <select class="form-control" style="padding-left: 9px" name="O_ORDERPRIORITY" required>
+                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("低级")){%>selected<%}%>>低级</option>
+                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("默认")){%>selected<%}%>>默认</option>
+                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("顶级")){%>selected<%}%>>顶级</option>
+                </select>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">&#12288;备注&#12288;</span>
-                <input type="text" name="C_COMMENT" class="form-control"
-                       value="<%=rs.getString("C_COMMENT")%>">
+                <span class="input-group-addon">&#12288;&#8194;制单员&#8194;&#12288;</span>
+                <input type="text" name="O_CLERK" class="form-control"
+                       value="<%=rs.getString("O_CLERK")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#8194;运输优先级&#8194;</span>
+                <select class="form-control" style="padding-left: 9px" name="O_SHIPPRIORITY" required>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("0")){%>selected<%}%>>0</option>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("1")){%>selected<%}%>>1</option>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("2")){%>selected<%}%>>2</option>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("3")){%>selected<%}%>>3</option>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("4")){%>selected<%}%>>4</option>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("5")){%>selected<%}%>>5</option>
+                    <option <%if (rs.getString("O_SHIPPRIORITY").equals("6")){%>selected<%}%>>6</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;&#12288;备注&#12288;&#12288;</span>
+                <input type="text" name="O_COMMENT" class="form-control"
+                       value="<%=rs.getString("O_COMMENT")%>">
             </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>
@@ -182,6 +195,24 @@
     }
 %>
 </body>
+<script src="/views/js/jquery-3.3.1.min.js"></script>
+<script src="/views/js/bootstrap.min.js"></script>
+<script src="/views/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/views/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    $('#datetimepicker').datetimepicker({
+        format: 'yyyy-mm-dd',
+        weekStart: 0,
+        startView: 3,
+        language: 'zh-CN',
+        autoclose: 1,
+        minView: 2,
+        maxView: 4,
+        forceParse: true,
+        todayBtn: true,
+        todayHighlight: true
+    });
+</script>
 <script>
     function checkPhone(phone) {
         if (!(/^1[34578]\d{9}$/.test(phone))) {

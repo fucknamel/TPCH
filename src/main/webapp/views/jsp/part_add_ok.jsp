@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 19:18
+  Date: 2018-12-24
+  Time: 09:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -42,7 +42,7 @@
                     <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
+                    <a href="#">订单</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
@@ -58,34 +58,54 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("INSERT INTO region(R_REGIONKEY, R_NAME, R_COMMENT, PS_SUPPLYCOST, PS_COMMENT) VALUES (");
-    insertSql.append("'" + request.getParameter("R_REGIONKEY") + "', ");
-    if(StringUtils.isBlank(request.getParameter("R_NAME"))){
+    StringBuilder insertSql = new StringBuilder("INSERT INTO part(P_PARTKEY, P_NAME, P_MFGR, P_BRAND, P_TYPE, P_SIZE, P_CONTAINER, P_RETAILPRICE, P_COMMENT) VALUES (");
+    insertSql.append("'" + request.getParameter("P_PARTKEY") + "', ");
+    if(StringUtils.isBlank(request.getParameter("P_NAME"))){
         insertSql.append("''" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("R_NAME") + "', ");
+        insertSql.append("'" + request.getParameter("P_NAME") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("R_COMMENT"))){
+    if(StringUtils.isBlank(request.getParameter("P_MFGR"))){
         insertSql.append("''" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("R_COMMENT") + "', ");
+        insertSql.append("'" + request.getParameter("P_MFGR") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("PS_SUPPLYCOST"))){
+    if(StringUtils.isBlank(request.getParameter("P_BRAND"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("P_BRAND") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("P_TYPE"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("P_TYPE") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("P_SIZE"))){
         insertSql.append("0" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("PS_SUPPLYCOST") + "', ");
+        insertSql.append("'" + request.getParameter("P_SIZE") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("PS_COMMENT"))){
+    if(StringUtils.isBlank(request.getParameter("P_CONTAINER"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("P_CONTAINER") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("P_RETAILPRICE"))){
+        insertSql.append("0" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("P_RETAILPRICE") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("P_COMMENT"))){
         insertSql.append("''");
     }else {
-        insertSql.append("'" + request.getParameter("PS_COMMENT") + "'");
+        insertSql.append("'" + request.getParameter("P_COMMENT") + "'");
     }
     insertSql.append(")");
 
@@ -115,7 +135,7 @@
             <h2 class="text-center">
                 数据添加成功！
             </h2>
-            <a href="/views/jsp/region_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/part_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -129,7 +149,7 @@
             <h2 class="text-center">
                 数据添加失败
             </h2>
-            <a href="/views/jsp/region_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/part_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

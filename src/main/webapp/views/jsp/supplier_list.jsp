@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 20:39
+  Date: 2018-12-24
+  Time: 11:12
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -43,7 +43,7 @@
                     <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
+                    <a href="#">订单</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
@@ -59,7 +59,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>供应商<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -79,9 +79,9 @@
 <div class="container">
     <div class="jumbotron">
         <div class="input-group">
-            <input id="search" type="text" class="form-control" placeholder="搜索国家..." value="<%=search%>" onkeypress="isenter(event)">
+            <input id="search" type="text" class="form-control" placeholder="搜索名称..." value="<%=search%>" onkeypress="isenter(event)">
             <span class="input-group-btn">
-            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/nation_list.jsp?search='+document.getElementById('search').value">冲!</button>
+            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/supplier_list.jsp?search='+document.getElementById('search').value">冲!</button>
             </span>
         </div>
         <%
@@ -100,21 +100,21 @@
                 Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
                 //out.print("Successfully connect to the databass!<br>");
                 Statement stmt = conn.createStatement();
-                ResultSet rsq = stmt.executeQuery("SELECT * FROM region");
+                ResultSet rsq = stmt.executeQuery("SELECT * FROM nation");
                 Map map = new HashMap();
                 while (rsq.next()) {
-                    map.put(rsq.getInt("R_REGIONKEY"), rsq.getString("R_NAME"));
+                    map.put(rsq.getInt("N_NATIONKEY"), rsq.getString("N_NAME"));
                 }
                 rsq.close();
                 //执行SQL查询语句，返回结果集
                 int count = 0;
                 ResultSet rsc = null;
                 if (!search.equals("")) {
-                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM nation WHERE N_NAME LIKE '%" + search + "%' ");
+                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM supplier WHERE S_NAME LIKE '%" + search + "%' ");
                 }
                 else{
                     search = "";
-                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM nation");
+                    rsc = stmt.executeQuery("SELECT COUNT(*) totalCount FROM supplier");
                 }
                 if (rsc.next()){
                     count = rsc.getInt("totalCount");
@@ -138,15 +138,15 @@
                 rsc.close();
                 ResultSet rs = null;
                 if (!search.equals("")) {
-                    rs = stmt.executeQuery("SELECT * FROM nation WHERE N_NAME LIKE '%" + search + "%' LIMIT " + (curPage - 1) * PAGESIZE + ", " + PAGESIZE);
+                    rs = stmt.executeQuery("SELECT * FROM supplier WHERE S_NAME LIKE '%" + search + "%' LIMIT " + (curPage - 1) * PAGESIZE + ", " + PAGESIZE);
                 }
                 else{
-                    rs = stmt.executeQuery("SELECT * FROM nation LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
+                    rs = stmt.executeQuery("SELECT * FROM supplier LIMIT " + (curPage-1)*PAGESIZE + ", " + PAGESIZE);
                 }
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">
-            <th align="center" colspan="5">
+            <th align="center" colspan="8">
                 <h2 class="text-center">详细数据信息</h2>
             </th>
             <tr align="center">
@@ -167,7 +167,28 @@
                 <td>
                     <p>
                         <strong>
-                            所属地区
+                            地址
+                        </strong>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <strong>
+                            国家
+                        </strong>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <strong>
+                            电话
+                        </strong>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <strong>
+                            账户余额
                         </strong>
                     </p>
                 </td>
@@ -192,29 +213,44 @@
             <tr align="center">
                 <td>
                     <p>
-                        <%=rs.getInt("N_NATIONKEY")%>
+                        <%=rs.getInt("S_SUPPKEY")%>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <%=rs.getString("N_NAME")%>
+                        <%=rs.getString("S_NAME")%>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <%if (rs.getObject("N_REGIONKEY")!=null){%><%=map.get(rs.getInt("N_REGIONKEY"))%><%}%>
+                        <%=rs.getString("S_ADDRESS")%>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <%=rs.getString("N_COMMENT")%>
+                        <%if (rs.getObject("S_NATIONKEY")!=null){%><%=map.get(rs.getInt("S_NATIONKEY"))%><%}%>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <%=rs.getString("S_PHONE")%>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <%=rs.getDouble("S_ACCTBAL")%>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <%=rs.getString("S_COMMENT")%>
                     </p>
                 </td>
                 <td>
                     <a class="btn btn-mini btn-success"
-                       href="/views/jsp/nation_change.jsp?id=<%=rs.getInt("N_NATIONKEY")%>&rpage=<%=curPage%>">修改</a>
+                       href="/views/jsp/supplier_change.jsp?id=<%=rs.getInt("S_SUPPKEY")%>&rpage=<%=curPage%>">修改</a>
                     <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/nation_delete.jsp?id=<%=rs.getInt("N_NATIONKEY")%>&rpage=<%=curPage%>">删除</a>
+                       href="/views/jsp/supplier_delete.jsp?id=<%=rs.getInt("S_SUPPKEY")%>&rpage=<%=curPage%>">删除</a>
                 </td>
             </tr>
             <%
@@ -224,7 +260,7 @@
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-primary"
-                                onclick="window.location.href='/views/jsp/nation_add.jsp'">添加
+                                onclick="window.location.href='/views/jsp/supplier_add.jsp'">添加
                         </button>
                     </div>
                 </div>
@@ -257,7 +293,7 @@
                 else{
                 %>
                 <li>
-                    <a href="/views/jsp/nation_list.jsp?curPage=1&search=<%=search%>" aria-label="Previous">
+                    <a href="/views/jsp/supplier_list.jsp?curPage=1&search=<%=search%>" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -275,7 +311,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/nation_list.jsp?curPage=<%=curPage-1%>&search=<%=search%>">上一页</a></li>
+                <li><a href="/views/jsp/supplier_list.jsp?curPage=<%=curPage-1%>&search=<%=search%>">上一页</a></li>
                 <%
                     }
                 %>
@@ -298,7 +334,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/nation_list.jsp?curPage=<%=i%>&search=<%=search%>"><%=i%></a></li>
+                <li><a href="/views/jsp/supplier_list.jsp?curPage=<%=i%>&search=<%=search%>"><%=i%></a></li>
                 <%
                         }
                     }
@@ -314,7 +350,7 @@
                 }
                 else{
                 %>
-                <li><a href="/views/jsp/nation_list.jsp?curPage=<%=curPage+1%>&search=<%=search%>">下一页</a></li>
+                <li><a href="/views/jsp/supplier_list.jsp?curPage=<%=curPage+1%>&search=<%=search%>">下一页</a></li>
                 <%
                     }
                 %>
@@ -332,7 +368,7 @@
                 else{
                 %>
                 <li>
-                    <a href="/views/jsp/nation_list.jsp?curPage=<%=pageCount%>&search=<%=search%>" aria-label="Previous">
+                    <a href="/views/jsp/supplier_list.jsp?curPage=<%=pageCount%>&search=<%=search%>" aria-label="Previous">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -352,7 +388,7 @@
 <script>
     function isenter(event){
         if (event.keyCode == 13){
-            window.location.href='/views/jsp/nation_list.jsp?search='+document.getElementById('search').value;
+            window.location.href='/views/jsp/supplier_list.jsp?search='+document.getElementById('search').value;
         }
     }
 </script>

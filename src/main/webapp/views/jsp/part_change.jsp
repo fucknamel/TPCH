@@ -1,14 +1,10 @@
 <%@ page import="com.tpch.util.PropertiesUtil" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 19:30
+  Date: 2018-12-24
+  Time: 10:11
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -45,7 +41,7 @@
                     <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
+                    <a href="#">订单</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
@@ -61,7 +57,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -73,9 +69,14 @@
         //     form.C_PHONE.focus();
         //     return false;
         // }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
+        if (form.P_RETAILPRICE.value != '' && isNaN(form.P_RETAILPRICE.value)) {
             alert("金额必须为数字");
-            form.PS_SUPPLYCOST.focus();
+            form.P_RETAILPRICE.focus();
+            return false;
+        }
+        if (form.P_SIZE.value != '' && isNaN(form.P_SIZE.value)) {
+            alert("尺寸必须为数字");
+            form.P_SIZE.focus();
             return false;
         }
 
@@ -97,7 +98,7 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String updateSql = "SELECT * FROM region WHERE R_REGIONKEY=" + id;
+        String updateSql = "SELECT * FROM part WHERE P_PARTKEY=" + id;
 //        String querySql = "SELECT * FROM nation";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
@@ -117,46 +118,66 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/region_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
+        <form class="form-signin" action="/views/jsp/part_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
-            <input type="hidden" name="R_REGIONKEY" class="form-control" value="<%=rs.getInt("R_REGIONKEY")%>">
+            <input type="hidden" name="P_PARTKEY" class="form-control" value="<%=rs.getInt("P_PARTKEY")%>">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;名称&#12288;</span>
-                <input type="text" name="R_NAME" class="form-control"
-                       value="<%=rs.getString("R_NAME")%>">
+                <input type="text" name="P_NAME" class="form-control"
+                       value="<%=rs.getString("P_NAME")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;制造商&#12288;</span>
+                <input type="text" name="P_MFGR" class="form-control"
+                       value="<%=rs.getString("P_MFGR")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;品牌&#12288;</span>
+                <input type="text" name="P_BRAND" class="form-control"
+                       value="<%=rs.getString("P_BRAND")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;型号&#12288;</span>
+                <input type="text" name="P_TYPE" class="form-control"
+                       value="<%=rs.getString("P_TYPE")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;尺寸&#12288;</span>
+                <input type="text" name="P_SIZE" class="form-control"
+                       value="<%=rs.getString("P_SIZE")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;包装容器&#12288;</span>
+                <input type="text" name="P_CONTAINER" class="form-control"
+                       value="<%=rs.getString("P_CONTAINER")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;零售价&#12288;</span>
+                <input type="text" name="P_RETAILPRICE" class="form-control"
+                       value="<%=rs.getString("P_RETAILPRICE")%>">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;备注&#12288;</span>
-                <input type="text" name="R_COMMENT" class="form-control"
-                       value="<%=rs.getString("R_COMMENT")%>">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">供应价格</span>
-                <input type="text" name="PS_SUPPLYCOST" class="form-control"
-                       value="<%=rs.getString("PS_SUPPLYCOST")%>">
+                <input type="text" name="P_COMMENT" class="form-control"
+                       value="<%=rs.getString("P_COMMENT")%>">
             </div>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <%--<div class="input-group">--%>
-                <%--<span class="input-group-addon">&#12288;供应价格&#12288;</span>--%>
-                <%--<select class="form-control" style="padding-left: 8px" name="PS_SUPPLYCOST">--%>
-                    <%--<%--%>
-                        <%--int len = list.size();--%>
-                        <%--for (int i = 0; i < len; i++) {--%>
-                    <%--%>--%>
-                    <%--<option value="<%=list.get(i)%>"--%>
-                            <%--<%if (list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>--%>
-                    <%--</option>--%>
-                    <%--<%--%>
-                        <%--}--%>
-                    <%--%>--%>
-                <%--</select>--%>
+            <%--<span class="input-group-addon">&#12288;供应价格&#12288;</span>--%>
+            <%--<select class="form-control" style="padding-left: 8px" name="PS_SUPPLYCOST">--%>
+            <%--<%--%>
+            <%--int len = list.size();--%>
+            <%--for (int i = 0; i < len; i++) {--%>
+            <%--%>--%>
+            <%--<option value="<%=list.get(i)%>"--%>
+            <%--<%if (list.get(i).equals(rs.getInt("C_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>--%>
+            <%--</option>--%>
+            <%--<%--%>
+            <%--}--%>
+            <%--%>--%>
+            <%--</select>--%>
             <%--</div>--%>
-            <div class="input-group">
-                <span class="input-group-addon">&#12288;备注&#12288;</span>
-                <input type="text" name="PS_COMMENT" class="form-control"
-                       value="<%=rs.getString("PS_COMMENT")%>">
-            </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>
         </form>

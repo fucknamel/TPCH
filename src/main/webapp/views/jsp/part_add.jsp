@@ -3,8 +3,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 19:10
+  Date: 2018-12-24
+  Time: 09:46
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -41,7 +41,7 @@
                     <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
+                    <a href="#">订单</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -69,9 +69,14 @@
         //     form.C_PHONE.focus();
         //     return false;
         // }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
+        if (form.P_RETAILPRICE.value != '' && isNaN(form.P_RETAILPRICE.value)) {
             alert("金额必须为数字");
-            form.PS_SUPPLYCOST.focus();
+            form.P_RETAILPRICE.focus();
+            return false;
+        }
+        if (form.P_SIZE.value != '' && isNaN(form.P_SIZE.value)) {
+            alert("尺寸必须为数字");
+            form.P_SIZE.focus();
             return false;
         }
 
@@ -93,11 +98,11 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String querySql = "SELECT * FROM nation";
+//        String querySql = "SELECT * FROM nation";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(querySql);
+//        ResultSet rs = stmt.executeQuery(querySql);
 //        Map<Integer, String> map = new HashMap<Integer, String>();
 //        List<String> list = new ArrayList<>();
 //        while (rs.next()) {
@@ -107,34 +112,38 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/region_add_ok.jsp"  role="form" method="post"
+        <form class="form-signin" action="/views/jsp/part_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
-            <input type="text" name="R_REGIONKEY" class="form-control" placeholder="编号" required autofocus>
-            <input type="text" name="R_NAME" class="form-control" placeholder="名称" autofocus>
-            <input type="text" name="R_COMMENT" class="form-control"  placeholder="备注" autofocus>
+            <input type="text" name="P_PARTKEY" class="form-control" placeholder="编号" required autofocus>
+            <input type="text" name="P_NAME" class="form-control" placeholder="名称" autofocus>
+            <input type="text" name="P_MFGR" class="form-control"  placeholder="制造商" autofocus>
+            <input type="text" name="P_BRAND" class="form-control" placeholder="品牌" autofocus>
+            <input type="text" name="P_TYPE" class="form-control" placeholder="型号" autofocus>
+            <input type="text" name="P_SIZE" class="form-control" placeholder="尺寸" autofocus>
+            <input type="text" name="P_CONTAINER" class="form-control" placeholder="包装容器" autofocus>
+            <input type="text" name="P_RETAILPRICE" class="form-control" placeholder="零售价" autofocus>
+            <input type="text" name="P_COMMENT" class="form-control" placeholder="备注" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <input type="text" name="PS_SUPPLYCOST" class="form-control"  placeholder="供应价格" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <%--<select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>--%>
-                <%--<option value="" disabled selected style="display: none;">供应价格</option>--%>
-                <%--<%--%>
-                    <%--for (Map.Entry<Integer, String> entry : map.entrySet()) {--%>
-                <%--%>--%>
-                <%--<option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>--%>
-                <%--</option>--%>
-                <%--<%--%>
-                    <%--}--%>
-                <%--%>--%>
+            <%--<option value="" disabled selected style="display: none;">供应价格</option>--%>
+            <%--<%--%>
+            <%--for (Map.Entry<Integer, String> entry : map.entrySet()) {--%>
+            <%--%>--%>
+            <%--<option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>--%>
+            <%--</option>--%>
+            <%--<%--%>
+            <%--}--%>
+            <%--%>--%>
             <%--</select>--%>
-            <input type="text" name="PS_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>
     </div>
 </div>
 <%
-        rs.close();
+//        rs.close();
         stmt.close();
         conn.close();
     } catch (SQLException sqlexception) {

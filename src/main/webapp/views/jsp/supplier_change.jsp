@@ -7,8 +7,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 21:51
+  Date: 2018-12-24
+  Time: 11:29
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -36,46 +36,55 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="/views/jsp/customer_list.jsp?curPage=1">消费者</a>
+                    <a href="/views/jsp/customer_list.jsp" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false">消费者</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">在线商品</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">在线商品</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">国家</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">订单</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供应商的零件</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">供应商的零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">地区</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">供货商</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>供应商<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <script type="text/javascript">
     function check(form) {
-        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-        //     alert("请输入正确的电话号码～");
-        //     form.C_PHONE.focus();
-        //     return false;
-        // }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
+        if (form.S_PHONE.value != '' && checkPhone(form.S_PHONE.value) == false) {
+            alert("请输入正确的电话号码～");
+            form.S_PHONE.focus();
+            return false;
+        }
+        if (form.S_ACCTBAL.value != '' && isNaN(form.S_ACCTBAL.value)) {
             alert("金额必须为数字");
-            form.PS_SUPPLYCOST.focus();
+            form.S_ACCTBAL.focus();
             return false;
         }
 
@@ -97,17 +106,17 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String updateSql = "SELECT * FROM nation WHERE N_NATIONKEY=" + id;
-        String querySql = "SELECT * FROM region";
+        String updateSql = "SELECT * FROM supplier WHERE S_SUPPKEY=" + id;
+        String querySql = "SELECT * FROM nation";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
         ResultSet rsc = stmt.executeQuery(querySql);
         List<Integer> list = new ArrayList<>();
-        Map<Integer, String> map = new HashMap<>();
+        Map<Integer, String> map = new HashMap<Integer, String>();
         while (rsc.next()) {
-            map.put(rsc.getInt("R_REGIONKEY"), rsc.getString("R_NAME"));
-            list.add(rsc.getInt("R_REGIONKEY"));
+            map.put(rsc.getInt("N_NATIONKEY"), rsc.getString("N_NAME"));
+            list.add(rsc.getInt("N_NATIONKEY"));
         }
         rsc.close();
         //执行SQL查询语句，返回结果集
@@ -117,25 +126,31 @@
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/nation_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
+        <form class="form-signin" action="/views/jsp/supplier_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
-            <input type="hidden" name="N_NATIONKEY" class="form-control" value="<%=rs.getInt("N_NATIONKEY")%>">
+            <input type="hidden" name="S_SUPPKEY" class="form-control" value="<%=rs.getInt("S_SUPPKEY")%>">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;名称&#12288;</span>
-                <input type="text" name="N_NAME" class="form-control"
-                       value="<%=rs.getString("N_NAME")%>">
+                <input type="text" name="S_NAME" class="form-control"
+                       value="<%=rs.getString("S_NAME")%>">
             </div>
             <div class="input-group">
-                <span class="input-group-addon">所属地区</span>
-                <select class="form-control" style="padding-left: 9px" name="N_REGIONKEY">
+                <span class="input-group-addon">&#12288;地址&#12288;</span>
+                <input type="text" name="S_ADDRESS" class="form-control"
+                       value="<%=rs.getString("S_ADDRESS")%>">
+            </div>
+            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+            <div class="input-group">
+                <span class="input-group-addon">&#12288;国家&#12288;</span>
+                <select class="form-control" style="padding-left: 9px" name="S_NATIONKEY">
                     <option value="">无</option>
                     <%
                         int len = list.size();
                         for (int i = 0; i < len; i++) {
                     %>
                     <option value="<%=list.get(i)%>"
-                            <%if (rs.getObject("N_REGIONKEY") != null && list.get(i).equals(rs.getInt("N_REGIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
+                            <%if (rs.getObject("S_NATIONKEY") != null && list.get(i).equals(rs.getInt("S_NATIONKEY"))){%>selected<%}%>><%=map.get(list.get(i))%>
                     </option>
                     <%
                         }
@@ -143,9 +158,19 @@
                 </select>
             </div>
             <div class="input-group">
+                <span class="input-group-addon">&#12288;电话&#12288;</span>
+                <input type="text" name="S_PHONE" class="form-control"
+                       value="<%=rs.getString("S_PHONE")%>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">账户余额</span>
+                <input type="text" name="S_ACCTBAL" class="form-control"
+                       value="<%=rs.getDouble("S_ACCTBAL")%>">
+            </div>
+            <div class="input-group">
                 <span class="input-group-addon">&#12288;备注&#12288;</span>
-                <input type="text" name="N_COMMENT" class="form-control"
-                       value="<%=rs.getString("N_COMMENT")%>">
+                <input type="text" name="S_COMMENT" class="form-control"
+                       value="<%=rs.getString("S_COMMENT")%>">
             </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>

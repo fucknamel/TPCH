@@ -42,10 +42,10 @@
                     <a href="#">在线商品</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
+                    <a href="/views/jsp/nation_list.jsp">国家</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">订单</a>
+                    <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>

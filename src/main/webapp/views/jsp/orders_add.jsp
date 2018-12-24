@@ -49,16 +49,16 @@
                     <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">零件</a>
+                    <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供应商的零件</a>
+                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供货商</a>
+                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -133,7 +133,7 @@
                 <option value="否" style="color: black;">未完成</option>
                 <option value="是" style="color: black;">已完成</option>
             </select>
-            <input type="text" name="O_TOTALPRICE" class="form-control" placeholder="订单金额" autofocus>
+            <input type="text" name="O_TOTALPRICE" class="form-control" placeholder="订单金额" autofocus disabled>
             <div class='input-group date' id='datetimepicker'>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>

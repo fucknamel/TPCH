@@ -47,16 +47,16 @@
                     <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">零件</a>
+                    <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供应商的零件</a>
+                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供货商</a>
+                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -168,7 +168,7 @@
                 <td>
                     <p>
                         <strong>
-                            订单状态
+                            订单完成状态
                         </strong>
                     </p>
                 </td>
@@ -281,7 +281,7 @@
             <%
                 }
             %>
-            <th colspan="9">
+            <th colspan="10">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-primary"

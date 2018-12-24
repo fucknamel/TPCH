@@ -49,7 +49,7 @@
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">供应商的零件</a>
+                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>

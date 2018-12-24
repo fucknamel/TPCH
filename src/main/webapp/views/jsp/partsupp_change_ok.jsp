@@ -1,15 +1,14 @@
-<%@ page import="com.tpch.util.PropertiesUtil" %>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 21:16
+  Date: 2018-12-24
+  Time: 17:09
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="com.tpch.util.PropertiesUtil" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <html>
 <head>
     <title>Title</title>
@@ -59,22 +58,14 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>供应商的零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<script type="text/javascript">
-    function changecolor(me){
-        if (me.selectedIndex == 0){
-            me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
-        }
-        else {
-            me.style.cssText = "padding-left: 9px;color: black;";
-        }
-    }
-</script>
 <%
+    request.setCharacterEncoding("UTF-8");
+    int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
         Class.forName(PropertiesUtil.getProperty("db.name"));
@@ -86,48 +77,65 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String querySql = "SELECT * FROM region";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(querySql);
-        Map<Integer, String> map = new HashMap<>();
-        while (rs.next()) {
-            map.put(rs.getInt("R_REGIONKEY"), rs.getString("R_NAME"));
+
+        StringBuilder insertSql = new StringBuilder("UPDATE partsupp SET ");
+        insertSql.append("PS_AVAILQTY=");
+        if(StringUtils.isBlank(request.getParameter("PS_AVAILQTY"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("PS_AVAILQTY") + "', ");
         }
+        insertSql.append("PS_SUPPLYCOST=");
+        if(StringUtils.isBlank(request.getParameter("PS_SUPPLYCOST"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("PS_SUPPLYCOST") + "', ");
+        }
+        insertSql.append("PS_COMMENT=");
+        if(StringUtils.isBlank(request.getParameter("PS_COMMENT"))){
+            insertSql.append("''");
+        }else {
+            insertSql.append("'" + request.getParameter("PS_COMMENT") + "'");
+        }
+        insertSql.append("WHERE PS_PARTKEY='"+ request.getParameter("PS_PARTKEY") + "' AND PS_SUPPKEY = '" + request.getParameter("PS_SUPPKEY") + "'");
+        System.out.println(insertSql.toString());
+        //执行SQL查询语句，返回结果集
+        stmt.executeUpdate(insertSql.toString());
+        //关闭数据库
+        stmt.close();
+        conn.close();
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/nation_add_ok.jsp" role="form" method="post"
-              onsubmit="return check(this)">
-            <h2 class="form-signin-heading">请填写信息</h2>
-            <input type="text" name="N_NATIONKEY" class="form-control" placeholder="编号" required autofocus>
-            <input type="text" name="N_NAME" class="form-control" placeholder="名称" autofocus>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="N_REGIONKEY"
-                    onchange="changecolor(this)">
-                <option value="" selected style="color: #8e8e8e;">所属地区</option>
-                <%
-                    for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                %>
-                <option value="<%=entry.getKey()%>" style="color: black;"><%=entry.getValue()%>
-                </option>
-                <%
-                    }
-                %>
-            </select>
-            <input type="text" name="N_COMMENT" class="form-control" placeholder="备注" autofocus>
-            <div class="span12"><br></div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
-        </form>
+        <div class="alert alert-success">
+            <h2 class="text-center">
+                数据修改成功！
+            </h2>
+            <a href="/views/jsp/partsupp_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+        </div>
     </div>
 </div>
 <%
-        rs.close();
-        stmt.close();
-        conn.close();
-    } catch (SQLException sqlexception) {
-        sqlexception.printStackTrace();
+} catch (SQLException sqlexception) {
+    sqlexception.printStackTrace();
+%>
+<div class="container">
+    <div class="jumbotron">
+        <div class="alert alert-success">
+            <h2 class="text-center">
+                数据修改失败
+            </h2>
+            <a href="/views/jsp/partsupp_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+        </div>
+    </div>
+</div>
+<%
     }
 %>
+<%-- Bootstrap --%>
+<script src="/views/js/jquery-3.3.1.min.js"></script>
+<script src="/views/js/bootstrap.min.js"></script>
 </body>
 </html>

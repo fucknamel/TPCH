@@ -35,7 +35,7 @@
                     <a href="/views/jsp/customer_list.jsp?curPage=1">消费者</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">在线商品</a>
+                    <a href="/views/jsp/lineitem_list.jsp">订单明细</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/nation_list.jsp">国家</a>

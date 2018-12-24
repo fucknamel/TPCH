@@ -35,7 +35,7 @@
                     <a href="/views/jsp/customer_list.jsp?curPage=1">消费者</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">在线商品</a>
+                    <a href="/views/jsp/lineitem_list.jsp">订单明细</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/nation_list.jsp">国家</a>
@@ -77,7 +77,7 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String deleteSql = "DELETE FROM partsupp WHERE PS_PARTKEY = " + partId + "AND PS_SUPPKEY = " + suppId;
+        String deleteSql = "DELETE FROM partsupp WHERE PS_PARTKEY = " + partId + " AND PS_SUPPKEY = " + suppId;
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();

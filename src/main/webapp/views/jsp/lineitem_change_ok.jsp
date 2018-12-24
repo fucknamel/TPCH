@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: lkh
   Date: 2018-12-24
-  Time: 10:18
+  Time: 17:09
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -58,7 +58,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>订单明细<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -80,56 +80,83 @@
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         Statement stmt = conn.createStatement();
 
-        StringBuilder insertSql = new StringBuilder("UPDATE part SET ");
-        insertSql.append("P_NAME=");
-        if(StringUtils.isBlank(request.getParameter("P_NAME"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("P_NAME") + "', ");
-        }
-        insertSql.append("P_MFGR=");
-        if(StringUtils.isBlank(request.getParameter("P_MFGR"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("P_MFGR") + "', ");
-        }
-        insertSql.append("P_BRAND=");
-        if(StringUtils.isBlank(request.getParameter("P_BRAND"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("P_BRAND") + "', ");
-        }
-        insertSql.append("P_TYPE=");
-        if(StringUtils.isBlank(request.getParameter("P_TYPE"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("P_TYPE") + "', ");
-        }
-        insertSql.append("P_SIZE=");
-        if(StringUtils.isBlank(request.getParameter("P_SIZE"))){
+        StringBuilder insertSql = new StringBuilder("UPDATE lineitem SET ");
+
+        insertSql.append("L_QUANTITY=");
+        if(StringUtils.isBlank(request.getParameter("L_QUANTITY"))){
             insertSql.append("0" + ",");
         }else {
-            insertSql.append("'" + request.getParameter("P_SIZE") + "', ");
+            insertSql.append("'" + request.getParameter("L_QUANTITY") + "', ");
         }
-        insertSql.append("P_CONTAINER=");
-        if(StringUtils.isBlank(request.getParameter("P_CONTAINER"))){
-            insertSql.append("''" + ",");
-        }else {
-            insertSql.append("'" + request.getParameter("P_CONTAINER") + "', ");
-        }
-        insertSql.append("P_RETAILPRICE=");
-        if(StringUtils.isBlank(request.getParameter("P_RETAILPRICE"))){
+        insertSql.append("L_EXTENDEDPRICE=");
+        if(StringUtils.isBlank(request.getParameter("L_EXTENDEDPRICE"))){
             insertSql.append("0" + ",");
         }else {
-            insertSql.append("'" + request.getParameter("P_RETAILPRICE") + "', ");
+            insertSql.append("'" + request.getParameter("L_EXTENDEDPRICE") + "', ");
         }
-        insertSql.append("P_COMMENT=");
-        if(StringUtils.isBlank(request.getParameter("P_COMMENT"))){
+        insertSql.append("L_DISCOUNT=");
+        if(StringUtils.isBlank(request.getParameter("L_DISCOUNT"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_DISCOUNT") + "', ");
+        }
+        insertSql.append("L_TAX=");
+        if(StringUtils.isBlank(request.getParameter("L_TAX"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_TAX") + "', ");
+        }
+        insertSql.append("L_RETURNFLAG=");
+        if(StringUtils.isBlank(request.getParameter("L_RETURNFLAG"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_RETURNFLAG") + "', ");
+        }
+        insertSql.append("L_LINESTATUS=");
+        if(StringUtils.isBlank(request.getParameter("L_LINESTATUS"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_LINESTATUS") + "', ");
+        }
+        insertSql.append("L_SHIPDATE=");
+        if(StringUtils.isBlank(request.getParameter("L_SHIPDATE"))){
+            insertSql.append("'2008-08-08'" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_SHIPDATE") + "', ");
+        }
+        insertSql.append("L_COMMITDATE=");
+        if(StringUtils.isBlank(request.getParameter("L_COMMITDATE"))){
+            insertSql.append("'2008-08-08'" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_COMMITDATE") + "', ");
+        }
+        insertSql.append("L_RECEIPTDATE=");
+        if(StringUtils.isBlank(request.getParameter("L_RECEIPTDATE"))){
+            insertSql.append("'2008-08-08'" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_RECEIPTDATE") + "', ");
+        }
+        insertSql.append("L_SHIPINSTRUCT=");
+        if(StringUtils.isBlank(request.getParameter("L_SHIPINSTRUCT"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_SHIPINSTRUCT") + "', ");
+        }
+        insertSql.append("L_SHIPMODE=");
+        if(StringUtils.isBlank(request.getParameter("L_SHIPMODE"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("L_SHIPMODE") + "', ");
+        }
+        insertSql.append("L_COMMENT=");
+        if(StringUtils.isBlank(request.getParameter("L_COMMENT"))){
             insertSql.append("''");
         }else {
-            insertSql.append("'" + request.getParameter("P_COMMENT") + "'");
+            insertSql.append("'" + request.getParameter("L_COMMENT") + "'");
         }
-        insertSql.append("WHERE P_PARTKEY='"+ request.getParameter("P_PARTKEY") + "'");
+
+        insertSql.append("WHERE L_ORDERKEY='"+ request.getParameter("L_ORDERKEY") + "' AND L_LINENUMBER = '" + request.getParameter("L_LINENUMBER") + "'");
+        System.out.println(insertSql.toString());
         //执行SQL查询语句，返回结果集
         stmt.executeUpdate(insertSql.toString());
         //关闭数据库
@@ -142,7 +169,7 @@
             <h2 class="text-center">
                 数据修改成功！
             </h2>
-            <a href="/views/jsp/part_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/lineitem_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -156,7 +183,7 @@
             <h2 class="text-center">
                 数据修改失败
             </h2>
-            <a href="/views/jsp/part_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/lineitem_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

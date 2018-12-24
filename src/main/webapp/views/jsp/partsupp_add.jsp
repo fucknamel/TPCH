@@ -39,7 +39,7 @@
                     <a href="/views/jsp/customer_list.jsp?curPage=1">消费者</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">在线商品</a>
+                    <a href="/views/jsp/lineitem_list.jsp">订单明细</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/nation_list.jsp">国家</a>
@@ -129,7 +129,7 @@
         <form class="form-signin" action="/views/jsp/partsupp_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="PS_PARTKEY" onchange="changecolor(this)">
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="PS_PARTKEY" onchange="changecolor(this)" required>
                 <option value="" selected style="color: #8e8e8e;">零件名称</option>
                 <%
                     for (Map.Entry<Integer, String> entry : mapPart.entrySet()) {
@@ -140,7 +140,7 @@
                     }
                 %>
             </select>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="PS_SUPPKEY" onchange="changecolor(this)">
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="PS_SUPPKEY" onchange="changecolor(this)" required>
                 <option value="" selected style="color: #8e8e8e;">供应商名称</option>
                 <%
                     for (Map.Entry<Integer, String> entry : mapSupp.entrySet()) {

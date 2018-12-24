@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-21
-  Time: 23:56
+  Date: 2018-12-24
+  Time: 09:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -58,56 +58,93 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>订单<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("INSERT INTO orders(O_ORDERKEY, O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT) VALUES (");
-    insertSql.append("'" + request.getParameter("O_ORDERKEY") + "', ");
-    if(StringUtils.isBlank(request.getParameter("O_CUSTKEY"))){
+    StringBuilder insertSql = new StringBuilder("INSERT INTO lineitem(L_ORDERKEY, L_PARTKEY, L_SUPPKEY, L_LINENUMBER, L_QUANTITY, L_EXTENDEDPRICE, L_DISCOUNT, L_TAX, L_RETURNFLAG, L_LINESTATUS, L_SHIPDATE, L_COMMITDATE, L_RECEIPTDATE, L_SHIPINSTRUCT, L_SHIPMODE, L_COMMENT) VALUES (");
+    insertSql.append("'" + request.getParameter("L_ORDERKEY") + "', ");
+    if(StringUtils.isBlank(request.getParameter("L_PARTKEY"))){
         insertSql.append("null" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_CUSTKEY") + "', ");
+        insertSql.append("'" + request.getParameter("L_PARTKEY") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_ORDERSTATUS"))){
-        insertSql.append("'否'" + ",");
+    if(StringUtils.isBlank(request.getParameter("L_SUPPKEY"))){
+        insertSql.append("null" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_ORDERSTATUS") + "', ");
+        insertSql.append("'" + request.getParameter("L_SUPPKEY") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_TOTALPRICE"))){
+    if(StringUtils.isBlank(request.getParameter("L_LINENUMBER"))){
+        insertSql.append("" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_LINENUMBER") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_QUANTITY"))){
         insertSql.append("0" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_TOTALPRICE") + "', ");
+        insertSql.append("'" + request.getParameter("L_QUANTITY") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_ORDERDATE"))){
+    if(StringUtils.isBlank(request.getParameter("L_EXTENDEDPRICE"))){
+        insertSql.append("0" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_EXTENDEDPRICE") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_DISCOUNT"))){
+        insertSql.append("0" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_DISCOUNT") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_TAX"))){
+        insertSql.append("0" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_TAX") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_RETURNFLAG"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_RETURNFLAG") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_LINESTATUS"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_LINESTATUS") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_SHIPDATE"))){
         insertSql.append("'2008-08-08'" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_ORDERDATE") + "', ");
+        insertSql.append("'" + request.getParameter("L_SHIPDATE") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_ORDERPRIORITY"))){
-        insertSql.append("'默认'" + ",");
+    if(StringUtils.isBlank(request.getParameter("L_COMMITDATE"))){
+        insertSql.append("'2008-08-08'" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_ORDERPRIORITY") + "', ");
+        insertSql.append("'" + request.getParameter("L_COMMITDATE") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_CLERK"))){
-        insertSql.append("'某员工'" + ",");
+    if(StringUtils.isBlank(request.getParameter("L_RECEIPTDATE"))){
+        insertSql.append("'2008-08-08'" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_CLERK") + "', ");
+        insertSql.append("'" + request.getParameter("L_RECEIPTDATE") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_SHIPPRIORITY"))){
-        insertSql.append("3" + ",");
+    if(StringUtils.isBlank(request.getParameter("L_SHIPINSTRUCT"))){
+        insertSql.append("''" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("O_SHIPPRIORITY") + "', ");
+        insertSql.append("'" + request.getParameter("L_SHIPINSTRUCT") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("O_COMMENT"))){
+    if(StringUtils.isBlank(request.getParameter("L_SHIPMODE"))){
+        insertSql.append("''" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("L_SHIPMODE") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("L_COMMENT"))){
         insertSql.append("''");
     }else {
-        insertSql.append("'" + request.getParameter("O_COMMENT") + "'");
+        insertSql.append("'" + request.getParameter("L_COMMENT") + "'");
     }
     insertSql.append(")");
+
+    System.out.println(insertSql.toString());
 
 
     //连接数据库，用jdbc驱动加载mysql
@@ -135,7 +172,7 @@
             <h2 class="text-center">
                 数据添加成功！
             </h2>
-            <a href="/views/jsp/orders_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/lineitem_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -149,7 +186,7 @@
             <h2 class="text-center">
                 数据添加失败
             </h2>
-            <a href="/views/jsp/orders_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/lineitem_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

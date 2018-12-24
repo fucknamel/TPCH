@@ -19,6 +19,7 @@
     <link href="/views/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <%-- Custom styles for this template --%>
     <link href="/views/css/navbar-fixed-top.css" rel="stylesheet">
+    <link href="/views/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -42,50 +43,45 @@
                     <a href="#">在线商品</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
+                    <a href="/views/jsp/nation_list.jsp">国家</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
+                    <a href="#">零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
+                    <a href="#">供应商的零件</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
+                    <a href="#">供货商</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>消费者<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>订单<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <script type="text/javascript">
     function check(form) {
-        if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-            alert("请输入正确的电话号码～");
-            form.C_PHONE.focus();
-            return false;
-        }
-        if (form.C_ACCTBAL.value != '' && isNaN(form.C_ACCTBAL.value)) {
+        if (form.O_TOTALPRICE.value != '' && isNaN(form.O_TOTALPRICE.value)) {
             alert("金额必须为数字");
-            form.C_ACCTBAL.focus();
+            form.O_TOTALPRICE.focus();
             return false;
         }
 
         return true;
     }
-    function changecolor(me){
-        if (me.selectedIndex == 0){
+
+    function changecolor(me) {
+        if (me.selectedIndex == 0) {
             me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
-        }
-        else {
+        } else {
             me.style.cssText = "padding-left: 9px;color: black;";
         }
     }
@@ -102,7 +98,7 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String querySql = "SELECT * FROM nation";
+        String querySql = "SELECT * FROM customer";
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
@@ -110,20 +106,18 @@
         Map<Integer, String> map = new HashMap<Integer, String>();
         List<String> list = new ArrayList<>();
         while (rs.next()) {
-            map.put(rs.getInt("N_NATIONKEY"), rs.getString("N_NAME"));
+            map.put(rs.getInt("C_CUSTKEY"), rs.getString("C_NAME"));
         }
 %>
 <div class="container">
     <div class="jumbotron">
-        <form class="form-signin" action="/views/jsp/customer_add_ok.jsp"  role="form" method="post"
+        <form class="form-signin" action="/views/jsp/orders_add_ok.jsp" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
-            <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
-            <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
-            <input type="text" name="C_ADDRESS" class="form-control"  placeholder="地址" autofocus>
-            <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)">
-                <option value="" selected style="color: #8e8e8e;">国家</option>
+            <input type="text" name="O_ORDERKEY" class="form-control" placeholder="编号" required autofocus>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_CUSTKEY"
+                    onchange="changecolor(this)">
+                <option value="" selected style="color: #8e8e8e;">顾客</option>
                 <%
                     for (Map.Entry<Integer, String> entry : map.entrySet()) {
                 %>
@@ -133,10 +127,39 @@
                     }
                 %>
             </select>
-            <input type="text" name="C_PHONE" class="form-control" placeholder="电话" autofocus>
-            <input type="text" name="C_ACCTBAL" class="form-control" placeholder="可用余额" autofocus>
-            <input type="text" name="C_MKTSEGMENT" class="form-control" placeholder="市场" autofocus>
-            <input type="text" name="C_COMMENT" class="form-control" placeholder="备注" autofocus>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_ORDERSTATUS"
+                    onchange="changecolor(this)">
+                <option value="否" selected style="color: #8e8e8e;">订单状态</option>
+                <option value="否" style="color: black;">未完成</option>
+                <option value="是" style="color: black;">已完成</option>
+            </select>
+            <input type="text" name="O_TOTALPRICE" class="form-control" placeholder="订单金额" autofocus>
+            <div class='input-group date' id='datetimepicker'>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                <input type='text' class="form-control" name="O_ORDERDATE" id="datetext">
+            </div>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_ORDERPRIORITY"
+                    onchange="changecolor(this)">
+                <option value="默认" selected style="color: #8e8e8e;">优先级</option>
+                <option style="color: black;">低级</option>
+                <option style="color: black;">默认</option>
+                <option style="color: black;">顶级</option>
+            </select>
+            <input type="text" name="O_CLERK" class="form-control" placeholder="制单员" autofocus>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_SHIPPRIORITY"
+                    onchange="changecolor(this)">
+                <option value="3" selected style="color: #8e8e8e;">运输优先级</option>
+                <option style="color: black;">0</option>
+                <option style="color: black;">1</option>
+                <option style="color: black;">2</option>
+                <option style="color: black;">3</option>
+                <option style="color: black;">4</option>
+                <option style="color: black;">5</option>
+                <option style="color: black;">6</option>
+            </select>
+            <input type="text" name="O_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>
@@ -151,6 +174,27 @@
     }
 %>
 </body>
+<script src="/views/js/jquery-3.3.1.min.js"></script>
+<script src="/views/js/bootstrap.min.js"></script>
+<script src="/views/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/views/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    $('#datetimepicker').datetimepicker({
+        format: 'yyyy-mm-dd',
+        weekStart: 0,
+        startView: 3,
+        language: 'zh-CN',
+        autoclose: 1,
+        minView: 2,
+        maxView: 4,
+        forceParse: true,
+        todayBtn: true,
+        todayHighlight: true
+    });
+    var date = $("#datetimepicker").data("datetimepicker").getDate();
+    formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    $('#datetext').attr("placeholder", formatted);
+</script>
 <script>
     function checkPhone(phone) {
         if (!(/^1[34578]\d{9}$/.test(phone))) {

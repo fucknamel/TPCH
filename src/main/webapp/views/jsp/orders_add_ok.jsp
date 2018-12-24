@@ -39,68 +39,73 @@
                     <a href="#">在线商品</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
+                    <a href="/views/jsp/nation_list.jsp">国家</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
+                    <a href="#">零件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
+                    <a href="#">供应商的零件</a>
                 </li>
                 <li class="dropdown">
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
+                    <a href="#">供货商</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>消费者<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>订单<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <%
     request.setCharacterEncoding("UTF-8");
-    StringBuilder insertSql = new StringBuilder("INSERT INTO customer(C_CUSTKEY, C_NAME, C_ADDRESS, C_NATIONKEY, C_PHONE, C_ACCTBAL, C_MKTSEGMENT, C_COMMENT) VALUES (");
-    insertSql.append("'" + request.getParameter("C_CUSTKEY") + "', ");
-    if(StringUtils.isBlank(request.getParameter("C_NAME"))){
-        insertSql.append("''" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_NAME") + "', ");
-    }
-    if(StringUtils.isBlank(request.getParameter("C_ADDRESS"))){
-        insertSql.append("''" + ",");
-    }else {
-        insertSql.append("'" + request.getParameter("C_ADDRESS") + "', ");
-    }
-    if(StringUtils.isBlank(request.getParameter("C_NATIONKEY"))){
+    StringBuilder insertSql = new StringBuilder("INSERT INTO orders(O_ORDERKEY, O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT) VALUES (");
+    insertSql.append("'" + request.getParameter("O_ORDERKEY") + "', ");
+    if(StringUtils.isBlank(request.getParameter("O_CUSTKEY"))){
         insertSql.append("null" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("C_NATIONKEY") + "', ");
+        insertSql.append("'" + request.getParameter("O_CUSTKEY") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("C_PHONE"))){
-        insertSql.append("''" + ",");
+    if(StringUtils.isBlank(request.getParameter("O_ORDERSTATUS"))){
+        insertSql.append("'否'" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("C_PHONE") + "', ");
+        insertSql.append("'" + request.getParameter("O_ORDERSTATUS") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("C_ACCTBAL"))){
+    if(StringUtils.isBlank(request.getParameter("O_TOTALPRICE"))){
         insertSql.append("0" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("C_ACCTBAL") + "', ");
+        insertSql.append("'" + request.getParameter("O_TOTALPRICE") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("C_MKTSEGMENT"))){
-        insertSql.append("''" + ",");
+    if(StringUtils.isBlank(request.getParameter("O_ORDERDATE"))){
+        insertSql.append("'2008-08-08'" + ",");
     }else {
-        insertSql.append("'" + request.getParameter("C_MKTSEGMENT") + "', ");
+        insertSql.append("'" + request.getParameter("O_ORDERDATE") + "', ");
     }
-    if(StringUtils.isBlank(request.getParameter("C_COMMENT"))){
+    if(StringUtils.isBlank(request.getParameter("O_ORDERPRIORITY"))){
+        insertSql.append("'默认'" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("O_ORDERPRIORITY") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("O_CLERK"))){
+        insertSql.append("'某员工'" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("O_CLERK") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("O_SHIPPRIORITY"))){
+        insertSql.append("3" + ",");
+    }else {
+        insertSql.append("'" + request.getParameter("O_SHIPPRIORITY") + "', ");
+    }
+    if(StringUtils.isBlank(request.getParameter("O_COMMENT"))){
         insertSql.append("''");
     }else {
-        insertSql.append("'" + request.getParameter("C_COMMENT") + "'");
+        insertSql.append("'" + request.getParameter("O_COMMENT") + "'");
     }
     insertSql.append(")");
 
@@ -123,20 +128,20 @@
         //关闭数据库
         stmt.close();
         conn.close();
-        %>
+%>
 <div class="container">
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
                 数据添加成功！
             </h2>
-            <a href="/views/jsp/customer_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/orders_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
 <%
-    } catch (SQLException sqlexception) {
-        sqlexception.printStackTrace();
+} catch (SQLException sqlexception) {
+    sqlexception.printStackTrace();
 %>
 <div class="container">
     <div class="jumbotron">
@@ -144,7 +149,7 @@
             <h2 class="text-center">
                 数据添加失败
             </h2>
-            <a href="/views/jsp/customer_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/orders_list.jsp" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

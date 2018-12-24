@@ -1,13 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 21:52
+  Date: 2018-12-24
+  Time: 10:18
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="com.tpch.util.PropertiesUtil" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <html>
 <head>
     <title>Title</title>
@@ -57,13 +58,13 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <%
-    String id = request.getParameter("id");
+    request.setCharacterEncoding("UTF-8");
     int rpage = Integer.parseInt(request.getParameter("rpage"));
     //连接数据库，用jdbc驱动加载mysql
     try {
@@ -76,26 +77,76 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String deleteSql = "DELETE FROM nation WHERE N_NATIONKEY = " + id;
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
+
+        StringBuilder insertSql = new StringBuilder("UPDATE part SET ");
+        insertSql.append("P_NAME=");
+        if(StringUtils.isBlank(request.getParameter("P_NAME"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_NAME") + "', ");
+        }
+        insertSql.append("P_MFGR=");
+        if(StringUtils.isBlank(request.getParameter("P_MFGR"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_MFGR") + "', ");
+        }
+        insertSql.append("P_BRAND=");
+        if(StringUtils.isBlank(request.getParameter("P_BRAND"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_BRAND") + "', ");
+        }
+        insertSql.append("P_TYPE=");
+        if(StringUtils.isBlank(request.getParameter("P_TYPE"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_TYPE") + "', ");
+        }
+        insertSql.append("P_SIZE=");
+        if(StringUtils.isBlank(request.getParameter("P_SIZE"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_SIZE") + "', ");
+        }
+        insertSql.append("P_CONTAINER=");
+        if(StringUtils.isBlank(request.getParameter("P_CONTAINER"))){
+            insertSql.append("''" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_CONTAINER") + "', ");
+        }
+        insertSql.append("P_RETAILPRICE=");
+        if(StringUtils.isBlank(request.getParameter("P_RETAILPRICE"))){
+            insertSql.append("0" + ",");
+        }else {
+            insertSql.append("'" + request.getParameter("P_RETAILPRICE") + "', ");
+        }
+        insertSql.append("P_COMMENT=");
+        if(StringUtils.isBlank(request.getParameter("P_COMMENT"))){
+            insertSql.append("''");
+        }else {
+            insertSql.append("'" + request.getParameter("P_COMMENT") + "'");
+        }
+        insertSql.append("WHERE P_PARTKEY='"+ request.getParameter("P_PARTKEY") + "'");
         //执行SQL查询语句，返回结果集
-        stmt.executeUpdate(deleteSql);
+        stmt.executeUpdate(insertSql.toString());
+        //关闭数据库
+        stmt.close();
+        conn.close();
 %>
 <div class="container">
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据删除成功！
+                数据修改成功！
             </h2>
-            <a href="/views/jsp/nation_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/part_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
 <%
-    stmt.close();
-    conn.close();
 } catch (SQLException sqlexception) {
     sqlexception.printStackTrace();
 %>
@@ -103,9 +154,9 @@
     <div class="jumbotron">
         <div class="alert alert-success">
             <h2 class="text-center">
-                数据删除失败
+                数据修改失败
             </h2>
-            <a href="/views/jsp/nation_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/part_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

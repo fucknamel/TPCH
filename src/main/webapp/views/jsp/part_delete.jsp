@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lkh
-  Date: 2018-12-23
-  Time: 21:52
+  Date: 2018-12-24
+  Time: 10:09
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>国家<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>零件<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -76,7 +76,7 @@
         String URL = PropertiesUtil.getProperty("db.url");
         String USER = PropertiesUtil.getProperty("db.username");
         String PASSWORD = PropertiesUtil.getProperty("db.password");
-        String deleteSql = "DELETE FROM nation WHERE N_NATIONKEY = " + id;
+        String deleteSql = "DELETE FROM part WHERE P_PARTKEY = " + id;
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //out.print("Successfully connect to the databass!<br>");
         Statement stmt = conn.createStatement();
@@ -89,7 +89,7 @@
             <h2 class="text-center">
                 数据删除成功！
             </h2>
-            <a href="/views/jsp/nation_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/part_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>
@@ -105,7 +105,7 @@
             <h2 class="text-center">
                 数据删除失败
             </h2>
-            <a href="/views/jsp/nation_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
+            <a href="/views/jsp/part_list.jsp?curPage=<%=rpage%>" class="btn btn-primary " style="margin: 0px auto;display: table;" role="button">返回</a>
         </div>
     </div>
 </div>

@@ -38,13 +38,13 @@
                     <a href="#">在线商品</a>
                 </li>
                 <li class="dropdown">
-                    <a href="/views/jsp/nation_list.jsp">国家</a>
+                    <a href="/views/jsp/nation_list?curPage=1.jsp">国家</a>
                 </li>
                 <li class="dropdown">
                     <a href="#">订单</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#">零件</a>
+                    <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li class="dropdown">
                     <a href="#">供应商的零件</a>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>消费者<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a>地区<span class="sr-only">(current)</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

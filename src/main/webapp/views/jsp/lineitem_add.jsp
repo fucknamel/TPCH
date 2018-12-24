@@ -68,35 +68,14 @@
     </div>
 </nav>
 <script type="text/javascript">
-    function check(form) {
-        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-        //     alert("请输入正确的电话号码～");
-        //     form.C_PHONE.focus();
-        //     return false;
-        // }
-        if (form.PS_AVAILQTY.value != '' && isNaN(form.PS_AVAILQTY.value)) {
-            alert("金额必须为数字");
-            form.PS_AVAILQTY.focus();
-            return false;
-        }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
-            alert("金额必须为数字");
-            form.PS_SUPPLYCOST.focus();
-            return false;
-        }
-
-        return true;
-    }
-
-    function changecolor(me){
-        if (me.selectedIndex == 0){
-            me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
-        }
-        else {
-            me.style.cssText = "padding-left: 9px;color: black;";
-        }
-    }
 </script>
+<%!
+    public int c = 0;
+    public int[][] itemlist = new int[2000][1000];
+    public double[][] costlist = new double[20000][4];
+    public int k = 3;
+    public int p = 0;
+%>
 <%
     //连接数据库，用jdbc驱动加载mysql
     try {
@@ -132,6 +111,40 @@
         }
         rs = stmt.executeQuery("SELECT * FROM partsupp");
 
+        c=0;
+        p=0;
+        if (rs.next()){
+            costlist[0][0]=rs.getInt("PS_PARTKEY");
+            costlist[0][1]=rs.getInt("PS_SUPPKEY");
+            costlist[0][2]=rs.getInt("PS_AVAILQTY");
+            costlist[0][3]=rs.getInt("PS_SUPPLYCOST");
+            itemlist[c][0] = rs.getInt("PS_PARTKEY");
+            itemlist[c][2] = rs.getInt("PS_SUPPKEY");
+            itemlist[c][1] = 2;
+            p++;
+        }
+        k = 3;
+        while (rs.next()){
+            costlist[p][0]=rs.getInt("PS_PARTKEY");
+            costlist[p][1]=rs.getInt("PS_SUPPKEY");
+            costlist[p][2]=rs.getInt("PS_AVAILQTY");
+            costlist[p][3]=rs.getInt("PS_SUPPLYCOST");
+            p++;
+            if (itemlist[c][0] == rs.getInt("PS_PARTKEY")){
+                itemlist[c][k] = rs.getInt("PS_SUPPKEY");
+                itemlist[c][1] = k;
+                k++;
+            }
+            else{
+                c++;
+                k = 2;
+                itemlist[c][0] = rs.getInt("PS_PARTKEY");
+                itemlist[c][2] = rs.getInt("PS_SUPPKEY");
+                itemlist[c][1] = k;
+                k++;
+            }
+        }
+
 %>
 <div class="container">
     <div class="jumbotron">
@@ -150,8 +163,8 @@
                     }
                 %>
             </select>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_PARTKEY" onchange="changecolor(this)" requied>
-                <option value="" disabled selected style="color: #8e8e8e;">零件名称</option>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_PARTKEY" id="par" onchange="change(this);mult();" required>
+                <option value="" selected disabled style="color: #8e8e8e;">零件名称</option>
                 <%
                     for (Map.Entry<Integer, String> entry : mapPart.entrySet()) {
                 %>
@@ -161,7 +174,7 @@
                     }
                 %>
             </select>
-            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_SUPPKEY" id="select7" onchange="changecolor(this)" required>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_SUPPKEY" id="select7" onchange="changecolor(this);mult();" required disabled>
                 <option value="" disabled selected style="color: #8e8e8e;">供应商名称</option>
                 <%
                     for (Map.Entry<Integer, String> entry : mapSupp.entrySet()) {
@@ -173,10 +186,24 @@
                 %>
             </select>
             <input type="text" name="L_LINENUMBER" class="form-control" placeholder="明细编号" autofocus required>
-            <input type="text" name="L_QUANTITY" class="form-control" placeholder="数量" autofocus>
-            <input type="text" name="L_EXTENDEDPRICE" class="form-control" placeholder="总金额" autofocus>
-            <input type="text" name="L_DISCOUNT" class="form-control" placeholder="折扣" autofocus>
-            <input type="text" name="L_TAX" class="form-control" placeholder="税" autofocus>
+            <p id="biao" style="margin: 0;display: none;" >零件库存： 零件价格：</p>
+            <input type="text" name="L_QUANTITY" class="form-control" placeholder="数量" id="quantity" oninput="mult()" autofocus>
+            <input type="text" name="L_EXTENDEDPRICE" class="form-control" placeholder="总金额" id="all" readonly autofocus>
+            <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_DISCOUNT" id="dis"
+                    onchange="changecolor(this);mult()">
+                <option value="0" selected disabled style="color: #8e8e8e;">折扣</option>
+                <option value="0" style="color: black;">无折扣</option>
+                <option value="90" style="color: black;">一折</option>
+                <option value="80" style="color: black;">二折</option>
+                <option value="70" style="color: black;">三折</option>
+                <option value="60" style="color: black;">四折</option>
+                <option value="50" style="color: black;">五折</option>
+                <option value="40" style="color: black;">六折</option>
+                <option value="30" style="color: black;">七折</option>
+                <option value="20" style="color: black;">八折</option>
+                <option value="10" style="color: black;">九折</option>
+            </select>
+            <input type="text" name="L_TAX" class="form-control" placeholder="税" id="tax" autofocus oninput="mult()">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_RETURNFLAG"
                     onchange="changecolor(this)">
                 <option value="否" selected style="color: #8e8e8e;">是否退货</option>
@@ -238,6 +265,41 @@
 <script src="/views/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/views/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript">
+    var tax = 0;
+    var discount = 100;
+    var number = 0;
+    var total = 0;
+    var price = 0;
+    var maxnum = 0;
+    function check(form) {
+        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
+        //     alert("请输入正确的电话号码～");
+        //     form.C_PHONE.focus();
+        //     return false;
+        // }
+        if (form.L_TAX.value != '' && isNaN(form.L_TAX.value)) {
+            alert("税额必须为数字");
+            form.L_TAX.focus();
+            return false;
+        }
+        if (form.L_QUANTITY.value > maxnum){
+            alert("库存不足");
+            form.L_QUANTITY.focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    function changecolor(me){
+        if (me.selectedIndex == 0){
+            me.style.cssText = "padding-left: 9px;color: #8e8e8e;";
+        }
+        else {
+            me.style.cssText = "padding-left: 9px;color: black;";
+        }
+    }
+
     $(function () {
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'yyyy-mm-dd',
@@ -286,9 +348,110 @@
 
     var date = $("#datetimepicker").data("datetimepicker").getDate();
     formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    $('#datetext').attr("placeholder", formatted);
-    $('#datetext1').attr("placeholder", formatted);
-    $('#datetext2').attr("placeholder", formatted);
+    $('#datetext').attr("value", formatted);
+    $('#datetext1').attr("value", formatted);
+    $('#datetext2').attr("value", formatted);
+
+    var psArray = new Array();  //先声明一维
+    for(var k=0;k<2000;k++){    //一维长度为i,i为变量，可以根据实际情况改变
+
+        psArray[k]=new Array();  //声明二维，每一个一维数组里面的一个元素都是一个数组；
+
+        for(var j=0;j<1000;j++){   //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
+
+            psArray[k][j]="";    //这里将变量初始化，我这边统一初始化为空，后面在用所需的值覆盖里面的值
+        }
+    }
+
+    var csArray = new Array();  //先声明一维
+    for(var k=0;k<20000;k++){    //一维长度为i,i为变量，可以根据实际情况改变
+
+        csArray[k]=new Array();  //声明二维，每一个一维数组里面的一个元素都是一个数组；
+
+        for(var j=0;j<4;j++){   //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
+
+            csArray[k][j]="";    //这里将变量初始化，我这边统一初始化为空，后面在用所需的值覆盖里面的值
+        }
+    }
+
+    <% for (int zz=0;zz<=c;zz++){
+        for (int xx =0;xx<=itemlist[zz][1];xx++){
+    %>
+    psArray[<%=zz%>][<%=xx%>] = <%=itemlist[zz][xx]%>;
+    <%
+        }
+    }
+    %>
+
+    <% for (int zz=0;zz<p;zz++){
+        for (int xx =0;xx<4;xx++){
+    %>
+    csArray[<%=zz%>][<%=xx%>] = <%=costlist[zz][xx]%>;
+    <%
+        }
+    }
+    %>
+
+    function change(me){
+        me.style.cssText = "padding-left: 9px;color: black;";
+
+        var partkey = me.options[me.selectedIndex].value;
+        var meselect = document.getElementById("select7");
+        meselect.style.cssText = "padding-left: 9px;color: black;";
+        meselect.removeAttribute("disabled");
+        meselect.options[0].removeAttribute("selected");
+        meselect.options[1].selected= true;
+        var slength = meselect.options.length;
+        me.options[0].style.display="none";
+        for (var i = 0;i<slength;i++){
+            meselect.options[i].style.display="none";
+            //meselect.options.remove(i);
+        }
+        var cc = 0;
+        for (var i = 0;i <= <%=c%>;i++){
+            if (psArray[i][0] == partkey){
+                cc = i;
+                break;
+            }
+        }
+        for (var i = 0;i< slength;i++){
+            for (var j = 2;j <= psArray[cc][1];j++){
+                if (meselect.options[i].value == psArray[cc][j]){
+                    meselect.options[i].style.display="list-item";
+                }
+            }
+        }
+    }
+    function mult() {
+        tax = document.getElementById("tax").value;
+        discount = 100 - document.getElementById("dis").value;
+        number = document.getElementById("quantity").value;
+        if (document.getElementById("par").value == "")
+            return false;
+        var par = document.getElementById("par").value;
+        if (document.getElementById("select7").value == "")
+            return false;
+        var sup = document.getElementById("select7").value;
+        total = 0;
+        if (isNaN(tax)||isNaN(discount)||isNaN(number)){
+            return false;
+        }
+
+        for (var i=0;i<<%=p%>;i++){
+            if (csArray[i][0]==par && csArray[i][1] ==sup){
+                maxnum = csArray[i][2];
+                price = csArray[i][3];
+                break;
+            }
+        }
+
+        total = Number(number*price*discount/100)+ Number(tax);
+        document.getElementById("all").value = parseFloat(total);
+        var pp =document.getElementById("biao");
+        pp.style.display="block";
+        pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
+
+    }
 </script>
 <script>
     function checkPhone(phone) {

@@ -133,7 +133,7 @@
                 <option value="否" style="color: black;">未完成</option>
                 <option value="是" style="color: black;">已完成</option>
             </select>
-            <input type="text" name="O_TOTALPRICE" class="form-control" placeholder="订单金额" autofocus disabled>
+            <input type="text" name="O_TOTALPRICE" class="form-control" placeholder="订单金额" readonly>
             <div class='input-group date' id='datetimepicker'>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
@@ -193,7 +193,7 @@
     });
     var date = $("#datetimepicker").data("datetimepicker").getDate();
     formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    $('#datetext').attr("placeholder", formatted);
+    $('#datetext').attr("value", formatted);
 </script>
 <script>
     function checkPhone(phone) {

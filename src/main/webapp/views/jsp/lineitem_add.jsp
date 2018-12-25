@@ -12,61 +12,47 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<html>
 <head>
     <title>Title</title>
     <%-- Bootstrap --%>
     <link href="/views/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <%-- Custom styles for this template --%>
-    <link href="/views/css/navbar-fixed-top.css" rel="stylesheet">
-    <link href="/views/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="/views/css/justified-nav.css" rel="stylesheet">
+    <link href="/views/fonts/favicon.ico" rel="icon">
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/views/jsp/customer_list.jsp">TPC-H</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
+<div class="container">
+    <div class="masthead">
+        <h3 class="text-muted">TPC-H</h3>
+        <nav>
+            <ul class="nav nav-justified">
+                <li>
                     <a href="/views/jsp/customer_list.jsp?curPage=1">消费者</a>
                 </li>
-                <li class="dropdown">
+                <li class="active">
                     <a href="/views/jsp/lineitem_list.jsp">订单明细</a>
                 </li>
-                <li class="dropdown">
+                <li>
                     <a href="/views/jsp/nation_list.jsp">国家</a>
                 </li>
-                <li class="dropdown">
+                <li>
                     <a href="/views/jsp/orders_list.jsp?curPage=1">订单</a>
                 </li>
-                <li class="dropdown">
+                <li>
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
-                <li class="dropdown">
+                <li>
                     <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
                 </li>
-                <li class="dropdown">
+                <li>
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
-                <li class="dropdown">
+                <li>
                     <a href="/views/jsp/supplier_list.jsp">供货商</a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>供应商的零件<span class="sr-only">(current)</span></a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
+        </nav>
     </div>
-</nav>
 <script type="text/javascript">
 </script>
 <%!
@@ -146,7 +132,6 @@
         }
 
 %>
-<div class="container">
     <div class="jumbotron">
         <form class="form-signin" action="/views/jsp/lineitem_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">

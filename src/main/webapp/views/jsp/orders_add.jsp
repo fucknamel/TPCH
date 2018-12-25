@@ -102,7 +102,11 @@
         <form class="form-signin" action="/views/jsp/orders_add_ok.jsp" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="O_ORDERKEY" class="form-control" placeholder="编号" required autofocus>
+                </div>
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_CUSTKEY"
                     onchange="changecolor(this)">
                 <option value="" selected style="color: #8e8e8e;">顾客</option>
@@ -115,19 +119,31 @@
                     }
                 %>
             </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_ORDERSTATUS"
                     onchange="changecolor(this)">
                 <option value="否" selected style="color: #8e8e8e;">订单状态</option>
                 <option value="否" style="color: black;">未完成</option>
                 <option value="是" style="color: black;">已完成</option>
             </select>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="O_TOTALPRICE" class="form-control" placeholder="订单金额" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker'>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
                 <input type='text' class="form-control" name="O_ORDERDATE" id="datetext">
             </div>
+                </div>
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_ORDERPRIORITY"
                     onchange="changecolor(this)">
                 <option value="中" selected style="color: #8e8e8e;">优先级</option>
@@ -135,7 +151,13 @@
                 <option style="color: black;">中</option>
                 <option style="color: black;">高</option>
             </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="O_CLERK" class="form-control" placeholder="制单员" autofocus>
+                </div>
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_SHIPPRIORITY"
                     onchange="changecolor(this)">
                 <option value="3" selected style="color: #8e8e8e;">运输优先级</option>
@@ -147,6 +169,8 @@
                 <option style="color: black;">5</option>
                 <option style="color: black;">6</option>
             </select>
+                </div>
+            </div>
             <input type="text" name="O_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>

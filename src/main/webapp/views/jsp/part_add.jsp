@@ -102,14 +102,38 @@
         <form class="form-signin" action="/views/jsp/part_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="P_PARTKEY" class="form-control" placeholder="编号" required autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="P_NAME" class="form-control" placeholder="名称" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="P_MFGR" class="form-control"  placeholder="制造商" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="P_BRAND" class="form-control" placeholder="品牌" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="P_TYPE" class="form-control" placeholder="型号" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="P_SIZE" class="form-control" placeholder="尺寸" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="P_CONTAINER" class="form-control" placeholder="包装容器" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="P_RETAILPRICE" class="form-control" placeholder="零售价" autofocus>
+                </div>
+            </div>
             <input type="text" name="P_COMMENT" class="form-control" placeholder="备注" autofocus>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>

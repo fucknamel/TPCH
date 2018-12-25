@@ -108,21 +108,31 @@
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="R_REGIONKEY" class="form-control" value="<%=rs.getInt("R_REGIONKEY")%>">
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;名称&#12288;</span>
                 <input type="text" name="R_NAME" class="form-control"
                        value="<%=rs.getString("R_NAME")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;备注&#12288;</span>
                 <input type="text" name="R_COMMENT" class="form-control"
                        value="<%=rs.getString("R_COMMENT")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">供应价格</span>
                 <input type="text" name="PS_SUPPLYCOST" class="form-control"
                        value="<%=rs.getString("PS_SUPPLYCOST")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <%--<div class="input-group">--%>
                 <%--<span class="input-group-addon">&#12288;供应价格&#12288;</span>--%>
@@ -143,6 +153,8 @@
                 <span class="input-group-addon">&#12288;备注&#12288;</span>
                 <input type="text" name="PS_COMMENT" class="form-control"
                        value="<%=rs.getString("PS_COMMENT")%>">
+            </div>
+                </div>
             </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>

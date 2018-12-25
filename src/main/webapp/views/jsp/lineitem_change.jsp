@@ -121,6 +121,8 @@
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="L_ORDERKEY" class="form-control" value="<%=rs.getInt("L_ORDERKEY")%>">
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;零件名称&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="L_PARTKEY" id="par" onchange="mult()" readonly="">
@@ -137,6 +139,8 @@
                     %>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#8194;供应商名称&#8194;</span>
                 <select class="form-control" style="padding-left: 9px" name="L_SUPPKEY" id="select7" onchange="mult()" readonly>
@@ -153,18 +157,28 @@
                     %>
                 </select>
             </div>
+                </div>
+            </div>
             <input type="hidden" name="L_LINENUMBER" class="form-control" value="<%=rs.getInt("L_LINENUMBER")%>">
             <p hidden id="biao" style="margin: 0;" >&#12288;</p>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;数量&#12288;&#12288;</span>
                 <input type="text" name="L_QUANTITY" class="form-control" id="quantity" oninput="mult()"
                        value="<%=rs.getDouble("L_QUANTITY")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#8194;总金额&#8194;&#12288;</span>
                 <input type="text" name="L_EXTENDEDPRICE" class="form-control" id="all"
                        value="<%=rs.getDouble("L_EXTENDEDPRICE")%>" readonly>
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;折扣&#12288;&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="L_DISCOUNT" id="dis" onchange="mult()" required>
@@ -180,10 +194,16 @@
                     <option value="10" <%if (rs.getDouble("L_DISCOUNT")==10){%>selected<%}%>>九折</option>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;&#8194;税&#8194;&#12288;&#12288;</span>
                 <input type="text" name="L_TAX" class="form-control" id="tax" value="<%=rs.getString("L_TAX")%>" oninput="mult()">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;是否退货&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="L_RETURNFLAG" required>
@@ -191,6 +211,8 @@
                     <option value="是" <%if (rs.getString("L_RETURNFLAG").equals("是")){%>selected<%}%>>已退货</option>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;明细状态&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="L_LINESTATUS" required>
@@ -198,6 +220,10 @@
                     <option value="是" <%if (rs.getString("L_LINESTATUS").equals("是")){%>selected<%}%>>已退货</option>
                 </select>
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker1'>
                 <span class="input-group-addon">&#12288;运输日期&#12288;</span>
                 <input type='text' class="form-control" name="L_SHIPDATE" value="<%=rs.getString("L_SHIPDATE")%>">
@@ -205,6 +231,8 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker'>
                 <span class="input-group-addon">&#12288;交付日期&#12288;</span>
                 <input type='text' class="form-control" name="L_COMMITDATE" value="<%=rs.getString("L_COMMITDATE")%>">
@@ -212,6 +240,10 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker2'>
                 <span class="input-group-addon">&#12288;收货日期&#12288;</span>
                 <input type='text' class="form-control" name="L_RECEIPTDATE" value="<%=rs.getString("L_RECEIPTDATE")%>">
@@ -219,11 +251,17 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;运输单位&#12288;</span>
                 <input type="text" name="L_SHIPINSTRUCT" class="form-control"
                        value="<%=rs.getString("L_SHIPINSTRUCT")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;运输方式&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="L_SHIPMODE" required>
@@ -232,10 +270,14 @@
                     <option <%if (rs.getString("L_SHIPMODE").equals("空运")){%>selected<%}%>>空运</option>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;备注&#12288;&#12288;</span>
                 <input type="text" name="L_COMMENT" class="form-control"
                        value="<%=rs.getString("L_COMMENT")%>">
+            </div>
+                </div>
             </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>

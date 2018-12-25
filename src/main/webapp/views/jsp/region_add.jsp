@@ -97,11 +97,23 @@
         <form class="form-signin" action="/views/jsp/region_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="R_REGIONKEY" class="form-control" placeholder="编号" required autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="R_NAME" class="form-control" placeholder="名称" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="R_COMMENT" class="form-control"  placeholder="备注" autofocus>
+                </div>
+                <div class="col-lg-6">
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <input type="text" name="PS_SUPPLYCOST" class="form-control"  placeholder="供应价格" autofocus>
+                </div>
+            </div>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <%--<select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)" required>--%>
                 <%--<option value="" disabled selected style="display: none;">供应价格</option>--%>

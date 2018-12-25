@@ -109,45 +109,69 @@
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="P_PARTKEY" class="form-control" value="<%=rs.getInt("P_PARTKEY")%>">
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;名称&#12288;</span>
                 <input type="text" name="P_NAME" class="form-control"
                        value="<%=rs.getString("P_NAME")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;制造商&#12288;</span>
                 <input type="text" name="P_MFGR" class="form-control"
                        value="<%=rs.getString("P_MFGR")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;品牌&#12288;</span>
                 <input type="text" name="P_BRAND" class="form-control"
                        value="<%=rs.getString("P_BRAND")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;型号&#12288;</span>
                 <input type="text" name="P_TYPE" class="form-control"
                        value="<%=rs.getString("P_TYPE")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;尺寸&#12288;</span>
                 <input type="text" name="P_SIZE" class="form-control"
                        value="<%=rs.getString("P_SIZE")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;包装容器&#12288;</span>
                 <input type="text" name="P_CONTAINER" class="form-control"
                        value="<%=rs.getString("P_CONTAINER")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;零售价&#12288;</span>
                 <input type="text" name="P_RETAILPRICE" class="form-control"
                        value="<%=rs.getString("P_RETAILPRICE")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;备注&#12288;</span>
                 <input type="text" name="P_COMMENT" class="form-control"
                        value="<%=rs.getString("P_COMMENT")%>">
+            </div>
+                </div>
             </div>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <%--<div class="input-group">--%>

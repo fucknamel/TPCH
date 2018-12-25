@@ -108,17 +108,25 @@
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="C_CUSTKEY" class="form-control" value="<%=rs.getInt("C_CUSTKEY")%>">
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;姓名&#12288;</span>
                 <input type="text" name="C_NAME" class="form-control"
                        value="<%=rs.getString("C_NAME")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;地址&#12288;</span>
                 <input type="text" name="C_ADDRESS" class="form-control"
                        value="<%=rs.getString("C_ADDRESS")%>">
             </div>
+                </div>
+            </div>
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;国家&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="C_NATIONKEY">
@@ -135,20 +143,30 @@
                     %>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;电话&#12288;</span>
                 <input type="text" name="C_PHONE" class="form-control"
                        value="<%=rs.getString("C_PHONE")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">可用余额</span>
                 <input type="text" name="C_ACCTBAL" class="form-control"
                        value="<%=rs.getDouble("C_ACCTBAL")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;市场&#12288;</span>
                 <input type="text" name="C_MKTSEGMENT" class="form-control"
                        value="<%=rs.getString("C_MKTSEGMENT")%>">
+            </div>
+                </div>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;备注&#12288;</span>

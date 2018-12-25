@@ -116,6 +116,8 @@
         <form class="form-signin" action="/views/jsp/partsupp_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="PS_PARTKEY" onchange="changecolor(this)" required>
                 <option value="" selected style="color: #8e8e8e;">零件名称</option>
                 <%
@@ -127,6 +129,8 @@
                     }
                 %>
             </select>
+                </div>
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="PS_SUPPKEY" onchange="changecolor(this)" required>
                 <option value="" selected style="color: #8e8e8e;">供应商名称</option>
                 <%
@@ -138,8 +142,16 @@
                     }
                 %>
             </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="PS_AVAILQTY" class="form-control" placeholder="供应数量" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="PS_SUPPLYCOST" class="form-control" placeholder="供应价格" autofocus>
+                </div>
+            </div>
             <input type="text" name="PS_COMMENT" class="form-control" placeholder="备注" autofocus>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>

@@ -88,8 +88,16 @@
         <form class="form-signin" action="/views/jsp/nation_add_ok.jsp" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="N_NATIONKEY" class="form-control" placeholder="编号" required autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="N_NAME" class="form-control" placeholder="名称" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="N_REGIONKEY"
                     onchange="changecolor(this)">
                 <option value="" selected style="color: #8e8e8e;">所属地区</option>
@@ -102,7 +110,11 @@
                     }
                 %>
             </select>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="N_COMMENT" class="form-control" placeholder="备注" autofocus>
+                </div>
+            </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>

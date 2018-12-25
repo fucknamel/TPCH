@@ -121,6 +121,8 @@
         <form class="form-signin" action="/views/jsp/partsupp_change_ok.jsp?rpage=<%=rpage%>" role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;零件名称&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="PS_PARTKEY" readonly>
@@ -137,6 +139,8 @@
                     %>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#8194;供应商名称&#8194;</span>
                 <select class="form-control" style="padding-left: 9px" name="PS_SUPPKEY" readonly>
@@ -153,15 +157,23 @@
                     %>
                 </select>
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;供应数量&#12288;</span>
                 <input type="text" name="PS_AVAILQTY" class="form-control"
                        value="<%=rs.getInt("PS_AVAILQTY")%>">
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;供应价格&#12288;</span>
                 <input type="text" name="PS_SUPPLYCOST" class="form-control"
                        value="<%=rs.getDouble("PS_SUPPLYCOST")%>">
+            </div>
+                </div>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;备注&#12288;&#12288;</span>

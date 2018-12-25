@@ -137,6 +137,8 @@
         <form class="form-signin" action="/views/jsp/lineitem_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+            <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_ORDERKEY" onchange="changecolor(this)" required>
                 <option value="" selected style="color: #8e8e8e;">订单号</option>
                 <%
@@ -149,6 +151,8 @@
                     }
                 %>
             </select>
+            </div>
+            <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_PARTKEY" id="par" onchange="change(this);mult();" required>
                 <option value="" selected disabled style="color: #8e8e8e;">零件名称</option>
                 <%
@@ -160,6 +164,10 @@
                     }
                 %>
             </select>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_SUPPKEY" id="select7" onchange="changecolor(this);mult();" required disabled>
                 <option value="" disabled selected style="color: #8e8e8e;">供应商名称</option>
                 <%
@@ -171,10 +179,22 @@
                     }
                 %>
             </select>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="L_LINENUMBER" class="form-control" placeholder="明细编号" autofocus required>
+                </div>
+            </div>
             <p id="biao" style="margin: 0;display: none;" >零件库存： 零件价格：</p>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="L_QUANTITY" class="form-control" placeholder="数量" id="quantity" oninput="mult()" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="L_EXTENDEDPRICE" class="form-control" placeholder="总金额" id="all" readonly autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_DISCOUNT" id="dis"
                     onchange="changecolor(this);mult()">
                 <option value="0" selected disabled style="color: #8e8e8e;">折扣</option>
@@ -189,19 +209,31 @@
                 <option value="20" style="color: black;">八折</option>
                 <option value="10" style="color: black;">九折</option>
             </select>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="L_TAX" class="form-control" placeholder="税" id="tax" autofocus oninput="mult()">
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_RETURNFLAG"
                     onchange="changecolor(this)">
                 <option value="否" selected style="color: #8e8e8e;">是否退货</option>
                 <option value="否" style="color: black;">否</option>
                 <option value="是" style="color: black;">是</option>
             </select>
+            </div>
+            <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_LINESTATUS"
                     onchange="changecolor(this)">
                 <option value="否" selected style="color: #8e8e8e;">明细状态</option>
                 <option value="否" style="color: black;">未完成</option>
                 <option value="是" style="color: black;">已完成</option>
             </select>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker1'>
                 <span class="input-group-addon">&#12288;运输日期&#12288;</span>
                 <input type='text' class="form-control" name="L_SHIPDATE" id="datetext1">
@@ -209,6 +241,8 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker'>
                 <span class="input-group-addon">&#12288;交付日期&#12288;</span>
                 <input type='text' class="form-control" name="L_COMMITDATE" id="datetext">
@@ -216,6 +250,10 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker2'>
                 <span class="input-group-addon">&#12288;收货日期&#12288;</span>
                 <input type='text' class="form-control" name="L_RECEIPTDATE" id="datetext2">
@@ -223,7 +261,13 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="L_SHIPINSTRUCT" class="form-control" placeholder="运输单位" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_SHIPMODE"
                     onchange="changecolor(this)">
                 <option value="陆运" selected disabled style="color: #8e8e8e;">运送方式</option>
@@ -231,7 +275,11 @@
                 <option value="海运" style="color: black;">海运</option>
                 <option value="空运" style="color: black;">空运</option>
             </select>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="L_COMMENT" class="form-control" placeholder="备注" autofocus>
+                </div>
+            </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>

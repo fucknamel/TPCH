@@ -105,9 +105,19 @@
         <form class="form-signin" action="/views/jsp/customer_add_ok.jsp"  role="form" method="post"
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请填写信息</h2>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="C_CUSTKEY" class="form-control" placeholder="编号" required autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="C_NAME" class="form-control" placeholder="姓名" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="C_ADDRESS" class="form-control"  placeholder="地址" autofocus>
+                </div>
+                <div class="col-lg-6">
             <%--<input type="text" class="form-control" name="C_NATIONKEY" value="<%=rs.getInt("C_NATIONKEY")%>">--%>
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="C_NATIONKEY" onchange="changecolor(this)">
                 <option value="" selected style="color: #8e8e8e;">国家</option>
@@ -120,10 +130,24 @@
                     }
                 %>
             </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="C_PHONE" class="form-control" placeholder="电话" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="C_ACCTBAL" class="form-control" placeholder="可用余额" autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <input type="text" name="C_MKTSEGMENT" class="form-control" placeholder="市场" autofocus>
+                </div>
+                <div class="col-lg-6">
             <input type="text" name="C_COMMENT" class="form-control" placeholder="备注" autofocus>
+                </div>
+            </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
         </form>

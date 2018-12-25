@@ -105,6 +105,8 @@
               onsubmit="return check(this)">
             <h2 class="form-signin-heading">请修改信息</h2>
             <input type="hidden" name="O_ORDERKEY" class="form-control" value="<%=rs.getInt("O_ORDERKEY")%>">
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;顾客&#12288;&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="O_CUSTKEY" required>
@@ -120,6 +122,8 @@
                     %>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;订单状态&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="O_ORDERSTATUS" required>
@@ -127,11 +131,17 @@
                     <option value="是" <%if (rs.getString("O_ORDERSTATUS").equals("是")){%>selected<%}%>>已完成</option>
                 </select>
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;订单金额&#12288;</span>
                 <input type="text" name="O_TOTALPRICE" class="form-control"
                        value="<%=rs.getDouble("O_TOTALPRICE")%>" readonly>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class='input-group date' id='datetimepicker'>
                 <span class="input-group-addon">&#12288;订单日期&#12288;</span>
                     <span class="input-group-addon">
@@ -139,6 +149,10 @@
                     </span>
                 <input type='text' class="form-control" name="O_ORDERDATE" value="<%=rs.getString("O_ORDERDATE")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#8194;优先级&#8194;&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="O_ORDERPRIORITY" required>
@@ -147,11 +161,17 @@
                     <option <%if (rs.getString("O_ORDERPRIORITY").equals("高")){%>selected<%}%>>高</option>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#8194;制单员&#8194;&#12288;</span>
                 <input type="text" name="O_CLERK" class="form-control"
                        value="<%=rs.getString("O_CLERK")%>">
             </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#8194;运输优先级&#8194;</span>
                 <select class="form-control" style="padding-left: 9px" name="O_SHIPPRIORITY" required>
@@ -164,10 +184,14 @@
                     <option <%if (rs.getString("O_SHIPPRIORITY").equals("6")){%>selected<%}%>>6</option>
                 </select>
             </div>
+                </div>
+                <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;备注&#12288;&#12288;</span>
                 <input type="text" name="O_COMMENT" class="form-control"
                        value="<%=rs.getString("O_COMMENT")%>">
+            </div>
+                </div>
             </div>
             <div class="span12"><br></div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">修改</button>

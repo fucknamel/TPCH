@@ -68,26 +68,11 @@
     </div>
 </nav>
 <script type="text/javascript">
-    function check(form) {
-        // if (form.PS_AVAILQTY.value != '' && checkPhone(form.PS_AVAILQTY.value) == false) {
-        //     alert("请输入正确的电话号码～");
-        //     form.PS_AVAILQTY.focus();
-        //     return false;
-        // }
-        if (form.PS_AVAILQTY.value != '' && isNaN(form.PS_AVAILQTY.value)) {
-            alert("金额必须为数字");
-            form.PS_AVAILQTY.focus();
-            return false;
-        }
-        if (form.PS_SUPPLYCOST.value != '' && isNaN(form.PS_SUPPLYCOST.value)) {
-            alert("金额必须为数字");
-            form.PS_SUPPLYCOST.focus();
-            return false;
-        }
-
-        return true;
-    }
 </script>
+<%!
+    public double[][] costlist = new double[20000][4];
+    public int p = 0;
+%>
 <%
     request.setCharacterEncoding("UTF-8");
     String orderId = request.getParameter("orderId");
@@ -125,6 +110,19 @@
             mapSupp.put(rss.getInt("S_SUPPKEY"), rss.getString("S_NAME"));
             listSupp.add(rss.getInt("S_SUPPKEY"));
         }
+
+        ResultSet rsi = stmt.executeQuery("SELECT * FROM partsupp");
+
+        p=0;
+        while (rsi.next()){
+            costlist[p][0]=rsi.getInt("PS_PARTKEY");
+            costlist[p][1]=rsi.getInt("PS_SUPPKEY");
+            costlist[p][2]=rsi.getInt("PS_AVAILQTY");
+            costlist[p][3]=rsi.getInt("PS_SUPPLYCOST");
+            p++;
+        }
+        rsi.close();
+
         //执行SQL查询语句，返回结果集
         ResultSet rs = stmt.executeQuery(updateSql);
 //        ResultSet rsc = stmt.executeQuery(querySql);
@@ -138,56 +136,66 @@
             <input type="hidden" name="L_ORDERKEY" class="form-control" value="<%=rs.getInt("L_ORDERKEY")%>">
             <div class="input-group">
                 <span class="input-group-addon">&#12288;零件名称&#12288;</span>
-                <select class="form-control" style="padding-left: 9px" name="L_PARTKEY" disabled>
-                    <option value="">无</option>
+                <select class="form-control" style="padding-left: 9px" name="L_PARTKEY" id="par" onchange="mult()" readonly="">
                     <%
                         int len = listPart.size();
                         for (int i = 0; i < len; i++) {
+                            if (rs.getObject("L_PARTKEY") != null && listPart.get(i).equals(rs.getInt("L_PARTKEY"))) {
                     %>
-                    <option value="<%=listPart.get(i)%>"
-                            <%if (rs.getObject("L_PARTKEY") != null && listPart.get(i).equals(rs.getInt("L_PARTKEY"))){%>selected<%}%>><%=mapPart.get(listPart.get(i))%>
+                    <option selected value="<%=listPart.get(i)%>"><%=mapPart.get(listPart.get(i))%>
                     </option>
                     <%
+                                break;}
                         }
                     %>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#8194;供应商名称&#8194;</span>
-                <select class="form-control" style="padding-left: 9px" name="L_SUPPKEY" disabled>
-                    <option value="">无</option>
+                <select class="form-control" style="padding-left: 9px" name="L_SUPPKEY" id="select7" onchange="mult()" readonly>
                     <%
                         int lenSupp = listSupp.size();
                         for (int i = 0; i < lenSupp; i++) {
+                            if (rs.getObject("L_SUPPKEY") != null && listSupp.get(i).equals(rs.getInt("L_SUPPKEY"))) {
                     %>
-                    <option value="<%=listSupp.get(i)%>"
-                            <%if (rs.getObject("L_SUPPKEY") != null && listSupp.get(i).equals(rs.getInt("L_SUPPKEY"))){%>selected<%}%>><%=mapSupp.get(listSupp.get(i))%>
+                    <option selected value="<%=listSupp.get(i)%>"><%=mapSupp.get(listSupp.get(i))%>
                     </option>
                     <%
+                                break;}
                         }
                     %>
                 </select>
             </div>
             <input type="hidden" name="L_LINENUMBER" class="form-control" value="<%=rs.getInt("L_LINENUMBER")%>">
+            <p id="biao" style="margin: 0;" >&#12288;</p>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;数量&#12288;&#12288;</span>
-                <input type="text" name="L_QUANTITY" class="form-control"
+                <input type="text" name="L_QUANTITY" class="form-control" id="quantity" oninput="mult()"
                        value="<%=rs.getDouble("L_QUANTITY")%>">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#8194;总金额&#8194;&#12288;</span>
-                <input type="text" name="L_EXTENDEDPRICE" class="form-control"
-                       value="<%=rs.getDouble("L_EXTENDEDPRICE")%>">
+                <input type="text" name="L_EXTENDEDPRICE" class="form-control" id="all"
+                       value="<%=rs.getDouble("L_EXTENDEDPRICE")%>" readonly>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;折扣&#12288;&#12288;</span>
-                <input type="text" name="L_DISCOUNT" class="form-control"
-                       value="<%=rs.getDouble("L_DISCOUNT")%>">
+                <select class="form-control" style="padding-left: 9px" name="L_DISCOUNT" id="dis" onchange="mult()" required>
+                    <option value="0" <%if (rs.getDouble("L_DISCOUNT")==0){%>selected<%}%>>无折扣</option>
+                    <option value="90" <%if (rs.getDouble("L_DISCOUNT")==90){%>selected<%}%>>一折</option>
+                    <option value="80" <%if (rs.getDouble("L_DISCOUNT")==80){%>selected<%}%>>二折</option>
+                    <option value="70" <%if (rs.getDouble("L_DISCOUNT")==70){%>selected<%}%>>三折</option>
+                    <option value="60" <%if (rs.getDouble("L_DISCOUNT")==60){%>selected<%}%>>四折</option>
+                    <option value="50" <%if (rs.getDouble("L_DISCOUNT")==50){%>selected<%}%>>五折</option>
+                    <option value="40" <%if (rs.getDouble("L_DISCOUNT")==40){%>selected<%}%>>六折</option>
+                    <option value="30" <%if (rs.getDouble("L_DISCOUNT")==30){%>selected<%}%>>七折</option>
+                    <option value="20" <%if (rs.getDouble("L_DISCOUNT")==20){%>selected<%}%>>八折</option>
+                    <option value="10" <%if (rs.getDouble("L_DISCOUNT")==10){%>selected<%}%>>九折</option>
+                </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;&#8194;税&#8194;&#12288;&#12288;</span>
-                <input type="text" name="L_TAX" class="form-control"
-                       value="<%=rs.getString("L_TAX")%>">
+                <input type="text" name="L_TAX" class="form-control" id="tax" value="<%=rs.getString("L_TAX")%>" oninput="mult()">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;是否退货&#12288;</span>
@@ -261,6 +269,33 @@
 <script src="/views/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/views/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript">
+    var tax = 0;
+    var discount = 100;
+    var number = 0;
+    var total = 0;
+    var price = 0;
+    var maxnum = 0;
+    function check(form) {
+        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
+        //     alert("请输入正确的电话号码～");
+        //     form.C_PHONE.focus();
+        //     return false;
+        // }
+        if (form.L_TAX.value != '' && isNaN(form.L_TAX.value)) {
+            alert("税额必须为数字");
+            form.L_TAX.focus();
+            return false;
+        }
+        if (form.L_QUANTITY.value > maxnum){
+            alert("库存不足");
+            form.L_QUANTITY.focus();
+            return false;
+        }
+
+        return true;
+    }
+
+
     $(function () {
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'yyyy-mm-dd',
@@ -306,13 +341,93 @@
         todayBtn: true,
         todayHighlight: true
     });
-</script>
-<script>
-    function checkPhone(phone) {
-        if (!(/^1[34578]\d{9}$/.test(phone))) {
+
+    var date = $("#datetimepicker").data("datetimepicker").getDate();
+    formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    $('#datetext').attr("value", formatted);
+    $('#datetext1').attr("value", formatted);
+    $('#datetext2').attr("value", formatted);
+
+
+    var csArray = new Array();  //先声明一维
+    for(var k=0;k<20000;k++){    //一维长度为i,i为变量，可以根据实际情况改变
+
+        csArray[k]=new Array();  //声明二维，每一个一维数组里面的一个元素都是一个数组；
+
+        for(var j=0;j<4;j++){   //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
+
+            csArray[k][j]="";    //这里将变量初始化，我这边统一初始化为空，后面在用所需的值覆盖里面的值
+        }
+    }
+
+
+    <% for (int zz=0;zz<p;zz++){
+        for (int xx =0;xx<4;xx++){
+    %>
+    csArray[<%=zz%>][<%=xx%>] = <%=costlist[zz][xx]%>;
+    <%
+        }
+    }
+    %>
+
+    function mult() {
+        tax = document.getElementById("tax").value;
+        discount = 100 - document.getElementById("dis").value;
+        number = document.getElementById("quantity").value;
+        if (document.getElementById("par").value == "")
+            return false;
+        var par = document.getElementById("par").value;
+        if (document.getElementById("select7").value == "")
+            return false;
+        var sup = document.getElementById("select7").value;
+        total = 0;
+        console.log(tax,discount,number);
+        if (isNaN(tax)||isNaN(discount)||isNaN(number)){
             return false;
         }
-        return true;
+        for (var i=0;i<<%=p%>;i++){
+            if (csArray[i][0]==par && csArray[i][1] ==sup){
+                maxnum = csArray[i][2];
+                price = csArray[i][3];
+                break;
+            }
+        }
+
+        total = Number(number*price*discount/100)+ Number(tax);
+        document.getElementById("all").value = parseFloat(total);
+        var pp =document.getElementById("biao");
+        pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
+
+    }
+
+    window.onload = function() {
+        tax = document.getElementById("tax").value;
+        discount = 100 - document.getElementById("dis").value;
+        number = document.getElementById("quantity").value;
+        if (document.getElementById("par").value == "")
+            return false;
+        var par = document.getElementById("par").value;
+        if (document.getElementById("select7").value == "")
+            return false;
+        var sup = document.getElementById("select7").value;
+        total = 0;
+        console.log(tax,discount,number);
+        if (isNaN(tax)||isNaN(discount)||isNaN(number)){
+            return false;
+        }
+        for (var i=0;i<<%=p%>;i++){
+            if (csArray[i][0]==par && csArray[i][1] ==sup){
+                maxnum = csArray[i][2];
+                price = csArray[i][3];
+                break;
+            }
+        }
+
+        total = Number(number*price*discount/100)+ Number(tax);
+        document.getElementById("all").value = parseFloat(total);
+        var pp =document.getElementById("biao");
+        pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
+
     }
 </script>
 </html>

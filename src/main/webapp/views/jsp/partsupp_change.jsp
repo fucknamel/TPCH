@@ -136,32 +136,32 @@
             <h2 class="form-signin-heading">请修改信息</h2>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;零件名称&#12288;</span>
-                <select class="form-control" style="padding-left: 9px" name="PS_PARTKEY" disabled="">
-                    <option value="">无</option>
+                <select class="form-control" style="padding-left: 9px" name="PS_PARTKEY" readonly>
                     <%
                         int len = listPart.size();
                         for (int i = 0; i < len; i++) {
+                            if (rs.getObject("PS_PARTKEY") != null && listPart.get(i).equals(rs.getInt("PS_PARTKEY"))) {
                     %>
-                    <option value="<%=listPart.get(i)%>"
-                            <%if (rs.getObject("PS_PARTKEY") != null && listPart.get(i).equals(rs.getInt("PS_PARTKEY"))){%>selected<%}%>><%=mapPart.get(listPart.get(i))%>
+                    <option selected value="<%=listPart.get(i)%>"><%=mapPart.get(listPart.get(i))%>
                     </option>
                     <%
+                            break;}
                         }
                     %>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#8194;供应商名称&#8194;</span>
-                <select class="form-control" style="padding-left: 9px" name="PS_SUPPKEY" disabled>
-                    <option value="">无</option>
+                <select class="form-control" style="padding-left: 9px" name="PS_SUPPKEY" readonly>
                     <%
                         int lenSupp = listSupp.size();
                         for (int i = 0; i < lenSupp; i++) {
+                            if (rs.getObject("PS_SUPPKEY") != null && listSupp.get(i).equals(rs.getInt("PS_SUPPKEY"))) {
                     %>
-                    <option value="<%=listSupp.get(i)%>"
-                            <%if (rs.getObject("PS_SUPPKEY") != null && listSupp.get(i).equals(rs.getInt("PS_SUPPKEY"))){%>selected<%}%>><%=mapSupp.get(listSupp.get(i))%>
+                    <option selected value="<%=listSupp.get(i)%>"><%=mapSupp.get(listSupp.get(i))%>
                     </option>
                     <%
+                                break;}
                         }
                     %>
                 </select>

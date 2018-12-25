@@ -142,7 +142,7 @@
             <div class="input-group">
                 <span class="input-group-addon">&#12288;订单金额&#12288;</span>
                 <input type="text" name="O_TOTALPRICE" class="form-control"
-                       value="<%=rs.getDouble("O_TOTALPRICE")%>" disabled>
+                       value="<%=rs.getDouble("O_TOTALPRICE")%>" readonly>
             </div>
             <div class='input-group date' id='datetimepicker'>
                 <span class="input-group-addon">&#12288;订单日期&#12288;</span>

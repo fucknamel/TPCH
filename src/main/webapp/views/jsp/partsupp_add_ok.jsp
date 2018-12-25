@@ -73,7 +73,7 @@
         insertSql.append("'" + request.getParameter("PS_AVAILQTY") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("PS_SUPPLYCOST"))){
-        insertSql.append("''" + ",");
+        insertSql.append("0" + ",");
     }else {
         insertSql.append("'" + request.getParameter("PS_SUPPLYCOST") + "', ");
     }

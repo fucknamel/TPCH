@@ -16,6 +16,7 @@
     <link href="/views/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <%-- Custom styles for this template --%>
     <link href="/views/css/justified-nav.css" rel="stylesheet">
+    <link href="/views/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link href="/views/fonts/favicon.ico" rel="icon">
 </head>
 <body>

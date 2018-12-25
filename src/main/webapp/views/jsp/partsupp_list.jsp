@@ -41,13 +41,13 @@
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li class="active">
-                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
+                    <a href="/views/jsp/partsupp_list.jsp">供应商零件</a>
                 </li>
                 <li>
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li>
-                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
+                    <a href="/views/jsp/supplier_list.jsp">供应商</a>
                 </li>
             </ul>
         </nav>
@@ -71,18 +71,19 @@
 %>
     <div class="jumbotron">
         <div class="input-group input-group-lg">
+            <span class="input-group-addon">表：供应商零件</span>
             <input id="search" type="text" class="form-control" placeholder="搜索零件或供应商名称..." value="<%
             if(searchPart.equals("")){%><%=searchSupp%><%}else{%><%=searchPart%><%}
             %>" onkeypress="isenter(event)">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">冲! <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">确定 <span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a onclick="window.location.href='/views/jsp/partsupp_list.jsp?searchPart='+document.getElementById('search').value">零件名称</a></li>
                     <li><a onclick="window.location.href='/views/jsp/partsupp_list.jsp?searchSupp='+document.getElementById('search').value">供应商名称</a></li>
                 </ul>
             </div>
             <%--<span class="input-group-btn">--%>
-            <%--<button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/partsupp_list.jsp?search='+document.getElementById('search').value">冲!</button>--%>
+            <%--<button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/partsupp_list.jsp?search='+document.getElementById('search').value">确定</button>--%>
             <%--</span>--%>
         </div>
         <%
@@ -158,10 +159,14 @@
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">
-            <th align="center" colspan="6">
-                <h2 class="text-center">详细数据信息</h2>
-            </th>
             <tr align="center">
+                <td>
+                    <p>
+                        <strong>
+                            操作
+                        </strong>
+                    </p>
+                </td>
                 <td>
                     <p>
                         <strong>
@@ -197,18 +202,17 @@
                         </strong>
                     </p>
                 </td>
-                <td>
-                    <p>
-                        <strong>
-                            操作
-                        </strong>
-                    </p>
-                </td>
             </tr>
             <%
                 while (rs.next()) {
             %>
             <tr align="center">
+                <td>
+                    <a class="btn btn-mini btn-success"
+                       href="/views/jsp/partsupp_change.jsp?partId=<%=rs.getInt("PS_PARTKEY")%>&suppId=<%=rs.getInt("PS_SUPPKEY")%>&rpage=<%=curPage%>">修改</a>
+                    <a class="btn btn-mini btn-danger"
+                       href="/views/jsp/partsupp_delete.jsp?partId=<%=rs.getInt("PS_PARTKEY")%>&suppId=<%=rs.getInt("PS_SUPPKEY")%>&rpage=<%=curPage%>">删除</a>
+                </td>
                 <td>
                     <p>
                         <%if (rs.getObject("PS_PARTKEY")!=null){%><%=mapPart.get(rs.getInt("PS_PARTKEY"))%><%}%>
@@ -238,12 +242,6 @@
                     <p>
                         <%=rs.getString("PS_COMMENT")%>
                     </p>
-                </td>
-                <td>
-                    <a class="btn btn-mini btn-success"
-                       href="/views/jsp/partsupp_change.jsp?partId=<%=rs.getInt("PS_PARTKEY")%>&suppId=<%=rs.getInt("PS_SUPPKEY")%>&rpage=<%=curPage%>">修改</a>
-                    <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/partsupp_delete.jsp?partId=<%=rs.getInt("PS_PARTKEY")%>&suppId=<%=rs.getInt("PS_SUPPKEY")%>&rpage=<%=curPage%>">删除</a>
                 </td>
             </tr>
             <%

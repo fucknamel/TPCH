@@ -41,13 +41,13 @@
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li>
-                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
+                    <a href="/views/jsp/partsupp_list.jsp">供应商零件</a>
                 </li>
                 <li>
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li>
-                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
+                    <a href="/views/jsp/supplier_list.jsp">供应商</a>
                 </li>
             </ul>
         </nav>
@@ -66,9 +66,10 @@
 %>
     <div class="jumbotron">
         <div class="input-group input-group-lg">
+            <span class="input-group-addon">表：消费者</span>
             <input id="search" type="text" class="form-control" placeholder="搜索姓名..." value="<%=search%>" onkeypress="isenter(event)">
             <span class="input-group-btn">
-            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value">冲!</button>
+            <button class="btn btn-default" type="submit" onclick="window.location.href='/views/jsp/customer_list.jsp?search='+document.getElementById('search').value">确定</button>
             </span>
         </div>
         <%
@@ -133,10 +134,14 @@
                 //成功则循环输出信息
         %>
         <table class="table table-bordered" align="center" width="800" border="1">
-            <th align="center" colspan="9">
-                <h2 class="text-center">详细数据信息</h2>
-            </th>
             <tr align="center">
+                <td>
+                    <p>
+                        <strong>
+                            操作
+                        </strong>
+                    </p>
+                </td>
                 <td>
                     <p>
                         <strong>
@@ -193,18 +198,17 @@
                         </strong>
                     </p>
                 </td>
-                <td>
-                    <p>
-                        <strong>
-                            操作
-                        </strong>
-                    </p>
-                </td>
             </tr>
             <%
                 while (rs.next()) {
             %>
             <tr align="center">
+                <td>
+                    <a class="btn btn-mini btn-success"
+                       href="/views/jsp/customer_change.jsp?id=<%=rs.getInt("C_CUSTKEY")%>&rpage=<%=curPage%>">修改</a>
+                    <a class="btn btn-mini btn-danger"
+                       href="/views/jsp/customer_delete.jsp?id=<%=rs.getInt("C_CUSTKEY")%>&rpage=<%=curPage%>">删除</a>
+                </td>
                 <td>
                     <p>
                         <%=rs.getInt("C_CUSTKEY")%>
@@ -244,12 +248,6 @@
                     <p>
                         <%=rs.getString("C_COMMENT")%>
                     </p>
-                </td>
-                <td>
-                    <a class="btn btn-mini btn-success"
-                       href="/views/jsp/customer_change.jsp?id=<%=rs.getInt("C_CUSTKEY")%>&rpage=<%=curPage%>">修改</a>
-                    <a class="btn btn-mini btn-danger"
-                       href="/views/jsp/customer_delete.jsp?id=<%=rs.getInt("C_CUSTKEY")%>&rpage=<%=curPage%>">删除</a>
                 </td>
             </tr>
             <%

@@ -39,13 +39,13 @@
                     <a href="/views/jsp/part_list.jsp?curPage=1">零件</a>
                 </li>
                 <li class="active">
-                    <a href="/views/jsp/partsupp_list.jsp">供应商的零件</a>
+                    <a href="/views/jsp/partsupp_list.jsp">供应商零件</a>
                 </li>
                 <li>
                     <a href="/views/jsp/region_list.jsp?curPage=1">地区</a>
                 </li>
                 <li>
-                    <a href="/views/jsp/supplier_list.jsp">供货商</a>
+                    <a href="/views/jsp/supplier_list.jsp">供应商</a>
                 </li>
             </ul>
         </nav>

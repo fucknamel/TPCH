@@ -203,25 +203,25 @@
                 <option value="是" style="color: black;">已完成</option>
             </select>
             <div class='input-group date' id='datetimepicker1'>
-                    <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
                 <span class="input-group-addon">&#12288;运输日期&#12288;</span>
                 <input type='text' class="form-control" name="L_SHIPDATE" id="datetext1">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
             </div>
             <div class='input-group date' id='datetimepicker'>
-                    <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
                 <span class="input-group-addon">&#12288;交付日期&#12288;</span>
                 <input type='text' class="form-control" name="L_COMMITDATE" id="datetext">
-            </div>
-            <div class='input-group date' id='datetimepicker2'>
-                    <span class="input-group-addon">
+                <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
+            </div>
+            <div class='input-group date' id='datetimepicker2'>
                 <span class="input-group-addon">&#12288;收货日期&#12288;</span>
                 <input type='text' class="form-control" name="L_RECEIPTDATE" id="datetext2">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
             </div>
             <input type="text" name="L_SHIPINSTRUCT" class="form-control" placeholder="运输单位" autofocus>
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="L_SHIPMODE"
@@ -434,9 +434,8 @@
         total = Number(number*price*discount/100)+ Number(tax);
         document.getElementById("all").value = parseFloat(total);
         var pp =document.getElementById("biao");
-        pp.style.display="block";
-        pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
-
+        // pp.style.display="block";
+        // pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
     }
 </script>
 <script>

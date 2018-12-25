@@ -77,7 +77,7 @@
         insertSql.append("'" + request.getParameter("O_ORDERDATE") + "', ");
     }
     if(StringUtils.isBlank(request.getParameter("O_ORDERPRIORITY"))){
-        insertSql.append("'默认'" + ",");
+        insertSql.append("'中'" + ",");
     }else {
         insertSql.append("'" + request.getParameter("O_ORDERPRIORITY") + "', ");
     }

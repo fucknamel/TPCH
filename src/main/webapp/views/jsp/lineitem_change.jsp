@@ -154,7 +154,7 @@
                 </select>
             </div>
             <input type="hidden" name="L_LINENUMBER" class="form-control" value="<%=rs.getInt("L_LINENUMBER")%>">
-            <p id="biao" style="margin: 0;" >&#12288;</p>
+            <p hidden id="biao" style="margin: 0;" >&#12288;</p>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#12288;数量&#12288;&#12288;</span>
                 <input type="text" name="L_QUANTITY" class="form-control" id="quantity" oninput="mult()"
@@ -200,24 +200,24 @@
             </div>
             <div class='input-group date' id='datetimepicker1'>
                 <span class="input-group-addon">&#12288;运输日期&#12288;</span>
+                <input type='text' class="form-control" name="L_SHIPDATE" value="<%=rs.getString("L_SHIPDATE")%>">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                <input type='text' class="form-control" name="L_SHIPDATE" value="<%=rs.getString("L_SHIPDATE")%>">
             </div>
             <div class='input-group date' id='datetimepicker'>
                 <span class="input-group-addon">&#12288;交付日期&#12288;</span>
+                <input type='text' class="form-control" name="L_COMMITDATE" value="<%=rs.getString("L_COMMITDATE")%>">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                <input type='text' class="form-control" name="L_COMMITDATE" value="<%=rs.getString("L_COMMITDATE")%>">
             </div>
             <div class='input-group date' id='datetimepicker2'>
                 <span class="input-group-addon">&#12288;收货日期&#12288;</span>
+                <input type='text' class="form-control" name="L_RECEIPTDATE" value="<%=rs.getString("L_RECEIPTDATE")%>">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                <input type='text' class="form-control" name="L_RECEIPTDATE" value="<%=rs.getString("L_RECEIPTDATE")%>">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">&#12288;运输单位&#12288;</span>
@@ -382,9 +382,8 @@
 
         total = Number(number*price*discount/100)+ Number(tax);
         document.getElementById("all").value = parseFloat(total);
-        var pp =document.getElementById("biao");
-        pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
-
+        // var pp =document.getElementById("biao");
+        // pp.innerHTML = "零件库存: "+ parseInt(maxnum) + " 零件价格: " + parseFloat(price);
     }
 
     window.onload = function() {

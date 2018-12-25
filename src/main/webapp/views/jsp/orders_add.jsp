@@ -130,10 +130,10 @@
             </div>
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_ORDERPRIORITY"
                     onchange="changecolor(this)">
-                <option value="默认" selected style="color: #8e8e8e;">优先级</option>
-                <option style="color: black;">低级</option>
-                <option style="color: black;">默认</option>
-                <option style="color: black;">顶级</option>
+                <option value="中" selected style="color: #8e8e8e;">优先级</option>
+                <option style="color: black;">低</option>
+                <option style="color: black;">中</option>
+                <option style="color: black;">高</option>
             </select>
             <input type="text" name="O_CLERK" class="form-control" placeholder="制单员" autofocus>
             <select class="form-control" style="padding-left: 9px;color: #8e8e8e;" name="O_SHIPPRIORITY"

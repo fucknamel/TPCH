@@ -142,9 +142,9 @@
             <div class="input-group">
                 <span class="input-group-addon">&#12288;&#8194;优先级&#8194;&#12288;</span>
                 <select class="form-control" style="padding-left: 9px" name="O_ORDERPRIORITY" required>
-                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("低级")){%>selected<%}%>>低级</option>
-                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("默认")){%>selected<%}%>>默认</option>
-                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("顶级")){%>selected<%}%>>顶级</option>
+                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("低")){%>selected<%}%>>低</option>
+                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("中")){%>selected<%}%>>中</option>
+                    <option <%if (rs.getString("O_ORDERPRIORITY").equals("高")){%>selected<%}%>>高</option>
                 </select>
             </div>
             <div class="input-group">

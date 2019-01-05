@@ -306,11 +306,6 @@
     var price = 0;
     var maxnum = 0;
     function check(form) {
-        // if (form.C_PHONE.value != '' && checkPhone(form.C_PHONE.value) == false) {
-        //     alert("请输入正确的电话号码～");
-        //     form.C_PHONE.focus();
-        //     return false;
-        // }
         if (form.L_TAX.value != '' && isNaN(form.L_TAX.value)) {
             alert("税额必须为数字");
             form.L_TAX.focus();
